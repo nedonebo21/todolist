@@ -16,12 +16,7 @@ export const App = () => {
         {id: 5, title: "TS", isDone: false},
         {id: 6, title: "RTK Query", isDone: false},
     ]
-    const tasks2: Task[] = [
-        {id: 1, title: "Muzon1", isDone: false},
-        {id: 2, title: "Muzon2", isDone: true},
-        {id: 3, title: "Muzon3", isDone: true},
-        {id: 4, title: "Muzon4", isDone: true},
-    ]
+    const tasks2: Task[] = []
 
     return (
         <div className="app">
