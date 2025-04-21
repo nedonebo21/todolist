@@ -16,12 +16,10 @@ export const App = () => {
         {id: 5, title: "TS", isDone: false},
         {id: 6, title: "RTK Query", isDone: false},
     ]
-    const tasks2: Task[] = []
 
     return (
         <div className="app">
             <TodolistItem tasks={tasks1} title="What to learn" date="21.04.2025"/>
-            <TodolistItem tasks={tasks2} title="Songs"/>
         </div>
     )
 }
