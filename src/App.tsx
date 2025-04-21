@@ -1,7 +1,7 @@
 import './App.css'
 import {TodolistItem} from "./components/todolistitem/TodolistItem.tsx";
 
-function App() {
+export const App = () => {
     return (
         <div className="app">
             <TodolistItem/>
@@ -10,5 +10,3 @@ function App() {
         </div>
     )
 }
-
-export default App
