@@ -1,5 +1,6 @@
 import {Task} from "../../App.tsx";
 import {Button} from "../button/Button.tsx";
+import './TodolistItem.css'
 
 type Props = {
     title: string
@@ -9,7 +10,7 @@ type Props = {
 
 export const TodolistItem = ({tasks, title, date}: Props) => {
     return (
-        <div>
+        <div className="todolist">
             <h3>{title}</h3>
             <div>
                 <input/>

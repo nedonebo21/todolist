@@ -1,0 +1,7 @@
+.todolist {
+    background-color: rgba(70, 60, 135, 0.7);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 15px;
+    height: max-content;
+}
