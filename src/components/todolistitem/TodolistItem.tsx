@@ -1,16 +1,31 @@
 import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../button/Button.tsx";
 import './TodolistItem.css'
+import {useState} from "react";
 
 type Props = {
     title: string
     tasks: Task[]
     date?: string
     deleteTask: (taskId: number) => void
-    changeFilter: (filter: FilterValues) => void
+    deleteAllTasks: () => void
 }
 
-export const TodolistItem = ({tasks, title, date, deleteTask, changeFilter}: Props) => {
+export const TodolistItem = ({tasks, title, date, deleteTask,deleteAllTasks}: Props) => {
+    const [filter, setFilter] = useState<FilterValues>("all")
+    let filteredTasks = tasks
+
+    if (filter === "active") {
+        filteredTasks = tasks.filter(task => !task.isDone)
+    }
+    if (filter === "completed"){
+        filteredTasks = tasks.filter(task => task.isDone)
+    }
+
+    const changeFilter = (filter: FilterValues) => {
+        setFilter(filter)
+    }
+
     return (
         <div className="todolist">
             <h3>{title}</h3>
@@ -18,11 +33,11 @@ export const TodolistItem = ({tasks, title, date, deleteTask, changeFilter}: Pro
                 <input/>
                 <button>+</button>
             </div>
-            {tasks.length === 0 ? (
+            {filteredTasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
                 <ul>
-                    {tasks.map(task => {
+                    {filteredTasks.map(task => {
                         // debugger
                         return (
                             <li key={task.id}>
@@ -39,6 +54,7 @@ export const TodolistItem = ({tasks, title, date, deleteTask, changeFilter}: Pro
                 <Button onClick={() => changeFilter("active")} title="Active"/>
                 <Button onClick={() => changeFilter("completed")} title="Completed"/>
             </div>
+            <Button onClick={() => deleteAllTasks()} title="Delete All Tasks"/>
             <div>{date}</div>
         </div>
     )
