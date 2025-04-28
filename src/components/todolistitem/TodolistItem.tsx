@@ -12,7 +12,7 @@ export const TodolistItem = ({tasks, title, date}: Props) => {
     return (
         <div className="todolist">
             <h3>{title}</h3>
-            <div>
+            <div className={"add-tasks"}>
                 <input/>
                 <button>+</button>
             </div>
@@ -26,12 +26,13 @@ export const TodolistItem = ({tasks, title, date}: Props) => {
                             <li key={task.id}>
                                 <input type="checkbox" checked={task.isDone}/>
                                 <span>{task.title}</span>
+                                <button>x</button>
                             </li>
                         )
                     })}
                 </ul>
             )}
-            <div>
+            <div className={"buttons"}>
                 <Button title="All"/>
                 <Button title="Active"/>
                 <Button title="Completed"/>
