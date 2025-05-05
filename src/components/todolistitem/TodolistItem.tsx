@@ -55,7 +55,7 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
         setTaskTitle(e.target.value)
     }
     const onKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter"){
+        if (e.key === "Enter" && !isBtnDisabled){
             onClickAddTask()
         }
     }
