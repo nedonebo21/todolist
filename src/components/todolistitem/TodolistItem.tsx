@@ -1,7 +1,7 @@
 import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../button/Button.tsx";
 import './TodolistItem.css'
-import {KeyboardEvent, useRef, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type Props = {
     title: string
@@ -46,26 +46,34 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
     })
     const renderedTasks = tasks.length ? <ul>{tasksList}</ul> : <p>Тасок нет</p>
 
-    const titleInput = useRef<HTMLInputElement>(null)
+    const [taskTitle, setTaskTitle] = useState('')
     const onClickAddTask = () => {
-        if (titleInput.current) {
-            addTask(titleInput.current.value)
-            titleInput.current.value = ''
-        }
+        addTask(taskTitle)
+        setTaskTitle('')
     }
-
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskTitle(e.target.value)
+    }
     const onKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter"){
             onClickAddTask()
         }
     }
+    const isBtnDisabled = taskTitle === '' || taskTitle.length > 18
+    const inputCheck =
+        taskTitle.length > 18 ? <span style={{color: "red"}}>Your title is out of range</span> :
+            !taskTitle.length ? <span style={{color: "orange"}}>Write your task title</span> :
+                <span style={{color: "yellowgreen"}}>Enter Your title</span>
 
     return (
         <div className="todolist">
             <h3>{title}</h3>
             <div className={"add-tasks"}>
-                <input ref={titleInput} onKeyDown={onKeyDownHandler}/>
-                <button onClick={onClickAddTask}>+</button>
+                <input value={taskTitle} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
+                <button disabled={isBtnDisabled} onClick={onClickAddTask}>+</button>
+            </div>
+            <div>
+                {inputCheck}
             </div>
             {renderedTasks}
             <div className={"buttons"}>
