@@ -1,17 +1,18 @@
 import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../button/Button.tsx";
 import './TodolistItem.css'
-import {useState} from "react";
+import {KeyboardEvent, useRef, useState} from "react";
 
 type Props = {
     title: string
     tasks: Task[]
     date?: string
-    deleteTask: (taskId: number) => void
+    deleteTask: (taskId: string) => void
     deleteAllTasks: () => void
+    addTask: (title: string) => void
 }
 
-export const TodolistItem = ({tasks, title, date, deleteTask,deleteAllTasks}: Props) => {
+export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, addTask}: Props) => {
     const [filter, setFilter] = useState<FilterValues>("all")
     let filteredTasks = tasks
     if (filter === "active") {
@@ -45,12 +46,26 @@ export const TodolistItem = ({tasks, title, date, deleteTask,deleteAllTasks}: Pr
     })
     const renderedTasks = tasks.length ? <ul>{tasksList}</ul> : <p>Тасок нет</p>
 
+    const titleInput = useRef<HTMLInputElement>(null)
+    const onClickAddTask = () => {
+        if (titleInput.current) {
+            addTask(titleInput.current.value)
+            titleInput.current.value = ''
+        }
+    }
+
+    const onKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter"){
+            onClickAddTask()
+        }
+    }
+
     return (
         <div className="todolist">
             <h3>{title}</h3>
             <div className={"add-tasks"}>
-                <input/>
-                <button>+</button>
+                <input ref={titleInput} onKeyDown={onKeyDownHandler}/>
+                <button onClick={onClickAddTask}>+</button>
             </div>
             {renderedTasks}
             <div className={"buttons"}>
