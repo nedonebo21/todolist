@@ -5,3 +5,10 @@
     padding: 15px;
     height: max-content;
 }
+.add-tasks button:disabled {
+    opacity: 0.5;
+}
+.add-tasks button:disabled:hover {
+    cursor: default;
+    color: white;
+}
