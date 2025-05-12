@@ -77,11 +77,6 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
             clickAddTaskHandler()
         }
     }
-    const isBtnDisabled = taskTitle === '' || taskTitle.length > 18
-    const inputCheck =
-        taskTitle.length > 18 ? <span style={{color: "red"}}>Your title is out of range</span> :
-            !taskTitle.length ? <span style={{color: "orange"}}>Write your task title</span> :
-                <span style={{color: "yellowgreen"}}>Enter Your title</span>
 
     return (
         <div className="todolist">
@@ -98,9 +93,9 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
             </div>
             {renderedTasks}
             <div className={"buttons"}>
-                <Button onClick={allClickHandler} title="All"/>
-                <Button onClick={activeClickHandler} title="Active"/>
-                <Button onClick={completeClickHandler} title="Completed"/>
+                <Button className={filter === "all" ? "active-filter" : ''} onClick={allClickHandler} title="All"/>
+                <Button className={filter === "active" ? "active-filter" : ''}  onClick={activeClickHandler} title="Active"/>
+                <Button className={filter === "completed" ? "active-filter" : ''} onClick={completeClickHandler} title="Completed"/>
             </div>
             <Button onClick={deleteAllTasksHandler} title="Delete All Tasks"/>
             <div>{date}</div>
