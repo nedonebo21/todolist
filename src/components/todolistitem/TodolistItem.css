@@ -12,3 +12,7 @@
     cursor: default;
     color: white;
 }
+.is-done{
+    text-decoration: line-through;
+    opacity: 0.5;
+}

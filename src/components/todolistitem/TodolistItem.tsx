@@ -50,7 +50,7 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
         return (
             <li key={task.id}>
                 <input type="checkbox" onChange={changeTaskStatusHandler} checked={task.isDone}/>
-                <span>{task.title}</span>
+                <span className={task.isDone ? "is-done" : ""}>{task.title}</span>
                 <Button onClick={deleteTaskHandler} title={"x"}/>
             </li>
         )
