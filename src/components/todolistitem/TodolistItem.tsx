@@ -15,6 +15,7 @@ type Props = {
 
 export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, addTask, changeTaskStatus}: Props) => {
     const [filter, setFilter] = useState<FilterValues>("all")
+    const [error, setError] = useState<string | null>(null)
 
     const getFilteredTasks = () => {
         let filteredTasks = tasks
@@ -63,13 +64,16 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
         if (trimmedTitle !== "") {
             addTask(taskTitle)
             setTaskTitle('')
+        } else {
+            setError("Title is required")
         }
     }
     const ChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(e.target.value)
+        setTaskTitle(e.currentTarget.value)
+        setError(null)
     }
     const KeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && !isBtnDisabled){
+        if (e.key === "Enter"){
             clickAddTaskHandler()
         }
     }
@@ -83,11 +87,14 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
         <div className="todolist">
             <h3>{title}</h3>
             <div className={"add-tasks"}>
-                <input value={taskTitle} onChange={ChangeHandler} onKeyDown={KeyDownHandler}/>
-                <Button disabled={isBtnDisabled} title={"+"} onClick={clickAddTaskHandler}></Button>
+                <input value={taskTitle}
+                       className={error ? "error" : ""}
+                       onChange={ChangeHandler}
+                       onKeyDown={KeyDownHandler}/>
+                <Button title={"+"} onClick={clickAddTaskHandler}></Button>
             </div>
             <div>
-                {inputCheck}
+                {error ? <div className={"error-message"}>{error}</div> : ''}
             </div>
             {renderedTasks}
             <div className={"buttons"}>

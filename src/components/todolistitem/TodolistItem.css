@@ -12,6 +12,12 @@
     cursor: default;
     color: white;
 }
+.error {
+    border: 2px solid red;
+}
+.error-message {
+    color: red;
+}
 .is-done{
     text-decoration: line-through;
     opacity: 0.5;
