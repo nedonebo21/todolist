@@ -10,9 +10,10 @@ type Props = {
     deleteTask: (taskId: string) => void
     deleteAllTasks: () => void
     addTask: (title: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
-export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, addTask}: Props) => {
+export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, addTask, changeTaskStatus}: Props) => {
     const [filter, setFilter] = useState<FilterValues>("all")
     let filteredTasks = tasks
     if (filter === "active") {
@@ -31,14 +32,20 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
     const changeFilter = (filter: FilterValues) => {
         setFilter(filter)
     }
+
+
     const tasksList = filteredTasks.map(task => {
         const deleteTaskHandler = () => {
             deleteTask(task.id)
         }
+        const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+            const newStatusValue = event.currentTarget.checked
+            changeTaskStatus(task.id, newStatusValue)
+        }
 
         return (
             <li key={task.id}>
-                <input type="checkbox" checked={task.isDone}/>
+                <input type="checkbox" onChange={changeTaskStatusHandler} checked={task.isDone}/>
                 <span>{task.title}</span>
                 <Button onClick={deleteTaskHandler} title={"x"}/>
             </li>

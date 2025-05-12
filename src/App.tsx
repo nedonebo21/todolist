@@ -34,6 +34,13 @@ export const App = () => {
         setTasks([newTask, ...tasks])
     }
 
+    const changeTaskStatus = (taskId:string, isDone: boolean) => {
+        const updatedTasks = tasks.map(task => task.id === taskId
+        ? {...task, isDone}
+        : task)
+        setTasks(updatedTasks)
+    }
+
 
 
     return (
@@ -43,6 +50,7 @@ export const App = () => {
                 deleteAllTasks={deleteAllTasks}
                 deleteTask={deleteTask}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
                 title="What to learn"
                 date="21.04.2025"/>
         </div>
