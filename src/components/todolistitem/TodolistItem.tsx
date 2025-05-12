@@ -70,7 +70,7 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
             <h3>{title}</h3>
             <div className={"add-tasks"}>
                 <input value={taskTitle} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
-                <button disabled={isBtnDisabled} onClick={onClickAddTask}>+</button>
+                <Button disabled={isBtnDisabled} title={"+"} onClick={onClickAddTask}></Button>
             </div>
             <div>
                 {inputCheck}
