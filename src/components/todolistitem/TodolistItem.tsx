@@ -58,16 +58,19 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
     const renderedTasks = tasks.length ? <ul>{tasksList}</ul> : <p>Тасок нет</p>
 
     const [taskTitle, setTaskTitle] = useState('')
-    const onClickAddTask = () => {
-        addTask(taskTitle)
-        setTaskTitle('')
+    const clickAddTaskHandler = () => {
+        const trimmedTitle = taskTitle.trim()
+        if (trimmedTitle !== "") {
+            addTask(taskTitle)
+            setTaskTitle('')
+        }
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const ChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTaskTitle(e.target.value)
     }
-    const onKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
+    const KeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && !isBtnDisabled){
-            onClickAddTask()
+            clickAddTaskHandler()
         }
     }
     const isBtnDisabled = taskTitle === '' || taskTitle.length > 18
@@ -80,8 +83,8 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
         <div className="todolist">
             <h3>{title}</h3>
             <div className={"add-tasks"}>
-                <input value={taskTitle} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
-                <Button disabled={isBtnDisabled} title={"+"} onClick={onClickAddTask}></Button>
+                <input value={taskTitle} onChange={ChangeHandler} onKeyDown={KeyDownHandler}/>
+                <Button disabled={isBtnDisabled} title={"+"} onClick={clickAddTaskHandler}></Button>
             </div>
             <div>
                 {inputCheck}
