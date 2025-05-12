@@ -15,12 +15,16 @@ type Props = {
 
 export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, addTask, changeTaskStatus}: Props) => {
     const [filter, setFilter] = useState<FilterValues>("all")
-    let filteredTasks = tasks
-    if (filter === "active") {
-        filteredTasks = tasks.filter(task => !task.isDone)
-    }
-    if (filter === "completed"){
-        filteredTasks = tasks.filter(task => task.isDone)
+
+    const getFilteredTasks = () => {
+        let filteredTasks = tasks
+        if (filter === "active") {
+            return (filteredTasks = tasks.filter(task => !task.isDone))
+        }
+        if (filter === "completed"){
+            return (filteredTasks = tasks.filter(task => task.isDone))
+        }
+        return filteredTasks
     }
 
     const deleteAllTasksHandler = () => deleteAllTasks()
@@ -34,7 +38,7 @@ export const TodolistItem = ({tasks, title, date, deleteTask, deleteAllTasks, ad
     }
 
 
-    const tasksList = filteredTasks.map(task => {
+    const tasksList = getFilteredTasks().map(task => {
         const deleteTaskHandler = () => {
             deleteTask(task.id)
         }
