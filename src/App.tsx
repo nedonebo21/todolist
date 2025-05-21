@@ -13,6 +13,8 @@ type TodoListType = {
     title: string
     filter: FilterValues
 }
+type TasksState = Record<string, Task[]>
+
 export type FilterValues = "all" | "active" | "completed"
 
 export const App = () => {
@@ -22,7 +24,7 @@ export const App = () => {
         {id: todoListID1, title: "what to learn", filter: "all"},
         {id: todoListID2, title: "what to buy", filter: "all"},
     ])
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<TasksState>({
         [todoListID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
