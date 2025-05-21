@@ -27,7 +27,8 @@
     color: #231c43;
     border-color: #231c43;
 }
-h3{
+.container {
     display: flex;
+    align-items: center;
     gap: 12px;
 }

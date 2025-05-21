@@ -118,10 +118,10 @@ export const TodolistItem = (props: Props) => {
 
     return (
         <div className="todolist">
-            <h3>
-                {title}
+            <div className={"container"}>
+                <h3>{title}</h3>
                 <Button onClick={handleTodoRemove} title={"x"}/>
-            </h3>
+            </div>
             <div className={"add-tasks"}>
                 <input value={taskTitle}
                        className={error ? "error" : ""}
