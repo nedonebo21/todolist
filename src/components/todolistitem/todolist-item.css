@@ -5,6 +5,9 @@
     padding: 15px;
     height: max-content;
 }
+.add-tasks{
+    margin-top: 10px;
+}
 .add-tasks button:disabled {
     opacity: 0.5;
 }
@@ -31,4 +34,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
+}
+.delete-all {
+    margin: 10px 0;
+    padding: 10px;
 }

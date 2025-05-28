@@ -1,6 +1,8 @@
 .app {
   padding: 30px;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .app > div {
@@ -90,4 +92,17 @@ button:hover{
 li button{
   height: 30px;
   width: 30px;
+}
+
+.app .add-tasks{
+  align-items: start;
+}
+.todolist-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+span{
+  font-weight: 700;
+  font-size: 18px;
 }

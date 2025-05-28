@@ -1,10 +1,12 @@
 import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../button/Button.tsx";
-import './TodolistItem.css'
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import './todolist-item.css'
+import {ChangeEvent} from "react";
+import {AddItemForm} from "./add-item-form/add-item-form.tsx";
+import {EditableSpan} from "./editable-span/editable-span.tsx";
 
 type Props = {
-    title: string
+    todoTitle: string
     tasks: Task[]
     date?: string
     filter: FilterValues
@@ -14,12 +16,14 @@ type Props = {
     changeTaskStatus: (payload: { todoListID: string, taskId: string, isDone: boolean }) => void
     changeFilter: (payload: { todoListID: string, filter: FilterValues }) => void
     removeTodo: (payload: { todoListID: string }) => void
+    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
+    changeTodoTitle: (todolistId: string, title: string) => void
     todoListID: string
 }
 
 export const TodolistItem = (props: Props) => {
     const {
-        title,
+        todoTitle,
         tasks,
         date,
         filter,
@@ -28,11 +32,11 @@ export const TodolistItem = (props: Props) => {
         addTask,
         changeTaskStatus,
         changeFilter,
+        changeTaskTitle,
+        changeTodoTitle,
         removeTodo,
         todoListID,
     } = props
-
-    const [error, setError] = useState<string | null>(null)
 
     const getFilteredTasks = () => {
         let filteredTasks = tasks
@@ -80,58 +84,39 @@ export const TodolistItem = (props: Props) => {
             })
         }
 
+        const handleTaskTitleChange = (title: string) => {
+            changeTaskTitle(todoListID, task.id, title)
+        }
+
         return (
-            <li key={task.id}>
+            <li className={task.isDone ? "is-done" : ""} key={task.id}>
                 <input type="checkbox" onChange={changeTaskStatusHandler} checked={task.isDone}/>
-                <span className={task.isDone ? "is-done" : ""}>{task.title}</span>
+                <EditableSpan value={task.title} onChange={handleTaskTitleChange} />
                 <Button onClick={deleteTaskHandler} title={"x"}/>
             </li>
         )
     })
     const renderedTasks = getFilteredTasks().length === 0 ? <p>Тасок нет</p> : <ul>{tasksList}</ul>
 
-    const [taskTitle, setTaskTitle] = useState('')
-    const handleAddTask = () => {
-        const trimmedTitle = taskTitle.trim()
-        if (trimmedTitle !== "") {
-            addTask({
-                todoListID: props.todoListID,
-                title: taskTitle
-            })
-            setTaskTitle('')
-        } else {
-            setError("Title is required")
-        }
+    const handleAddTask = (title:string) => {
+        addTask({todoListID: todoListID, title: title})
     }
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(e.currentTarget.value)
-        setError(null)
-    }
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            handleAddTask()
-        }
-    }
+
     const handleTodoRemove = () => {
         removeTodo({todoListID: todoListID})
+    }
+
+    const handleTodoTitleChange = (title: string) => {
+        changeTodoTitle(todoListID, title)
     }
 
     return (
         <div className="todolist">
             <div className={"container"}>
-                <h3>{title}</h3>
+                <EditableSpan value={todoTitle} onChange={handleTodoTitleChange} />
                 <Button onClick={handleTodoRemove} title={"x"}/>
             </div>
-            <div className={"add-tasks"}>
-                <input value={taskTitle}
-                       className={error ? "error" : ""}
-                       onChange={handleChange}
-                       onKeyDown={handleKeyDown}/>
-                <Button title={"+"} onClick={handleAddTask}></Button>
-            </div>
-            <div>
-                {error ? <div className={"error-message"}>{error}</div> : ''}
-            </div>
+            <AddItemForm onCreateItem={handleAddTask}/>
             {renderedTasks}
             <div className={"buttons"}>
                 <Button className={filter === "all" ? "active-filter" : ''} onClick={handleAllFilter}
@@ -140,8 +125,9 @@ export const TodolistItem = (props: Props) => {
                         title="Active"/>
                 <Button className={filter === "completed" ? "active-filter" : ''} onClick={handleCompletedFilter}
                         title="Completed"/>
+
             </div>
-            <Button onClick={handleAllTasksDelete} title="Delete All Tasks"/>
+            <Button className={'delete-all'} onClick={handleAllTasksDelete} title="Delete All Tasks"/>
             <div>{date}</div>
         </div>
     )
