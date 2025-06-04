@@ -15,7 +15,8 @@ h3{
 }
 
 .add-tasks{
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 40px;
   align-items: center;
 }
 .add-tasks input {
