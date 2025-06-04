@@ -2,7 +2,7 @@ import {Button} from "../../button/Button.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type ItemFormProps = {
-    onCreateItem: (title:string) => void
+    onCreateItem: (title: string) => void
 }
 
 export const AddItemForm = (props: ItemFormProps) => {
@@ -35,9 +35,7 @@ export const AddItemForm = (props: ItemFormProps) => {
                    onChange={handleChange}
                    onKeyDown={handleKeyDown}/>
             <Button title={"+"} onClick={handleAddTask}></Button>
-            <div>
-                {error ? <div className={"error-message"}>{error}</div> : ''}
-            </div>
+            {error ? <div className={"error-message"}>{error}</div> : ''}
         </div>
     )
 }
