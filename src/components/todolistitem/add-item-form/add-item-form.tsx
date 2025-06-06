@@ -1,8 +1,12 @@
-import {Button} from "../../button/Button.tsx";
+import {Button} from "@/components/ui/button.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Input} from "@/components/ui/input.tsx";
+import {BookmarkPlus} from 'lucide-react'
+
 
 type ItemFormProps = {
     onCreateItem: (title: string) => void
+    placeholderValue?: string
 }
 
 export const AddItemForm = (props: ItemFormProps) => {
@@ -29,13 +33,20 @@ export const AddItemForm = (props: ItemFormProps) => {
     }
 
     return (
-        <div className={"add-tasks"}>
-            <input value={title}
-                   className={error ? "error" : ""}
-                   onChange={handleChange}
-                   onKeyDown={handleKeyDown}/>
-            <Button title={"+"} onClick={handleAddTask}></Button>
-            {error ? <div className={"error-message"}>{error}</div> : ''}
-        </div>
+        <>
+            <div className={"flex gap-1"}>
+                <Input
+                    size={2}
+                    value={title}
+                    className={'w-[288px]'}
+                    placeholder={props.placeholderValue ?? 'Enter your title'}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}/>
+                <Button size={'icon'} onClick={handleAddTask}>
+                    <BookmarkPlus/>
+                </Button>
+            </div>
+            {error ? <div className={"text-red-600"}>{error}</div> : ''}
+        </>
     )
 }

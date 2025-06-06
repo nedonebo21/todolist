@@ -1,9 +1,11 @@
 import {FilterValues, Task} from "../../App.tsx";
-import {Button} from "../button/Button.tsx";
-import './todolist-item.css'
-import {ChangeEvent} from "react";
+import {Button} from "@/components/ui/button.tsx";
 import {AddItemForm} from "./add-item-form/add-item-form.tsx";
 import {EditableSpan} from "./editable-span/editable-span.tsx";
+import {Card, CardContent, CardFooter, CardHeader} from "@/components/ui/card.tsx";
+import {Checkbox} from "@/components/ui/checkbox.tsx";
+import {Delete, BookmarkX} from 'lucide-react'
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 type Props = {
     todoTitle: string
@@ -69,18 +71,17 @@ export const TodolistItem = (props: Props) => {
 
 
     const tasksList = getFilteredTasks().map(task => {
-        const deleteTaskHandler = () => {
+        const handleDeleteTask = () => {
             deleteTask({
                 todoListID: todoListID,
                 taskId: task.id
             })
         }
-        const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-            const newStatusValue = event.currentTarget.checked
+        const changeTaskStatusHandler = (checked: boolean) => {
             changeTaskStatus({
                 todoListID: todoListID,
                 taskId: task.id,
-                isDone: newStatusValue
+                isDone: checked
             })
         }
 
@@ -89,16 +90,20 @@ export const TodolistItem = (props: Props) => {
         }
 
         return (
-            <li className={task.isDone ? "is-done" : ""} key={task.id}>
-                <input type="checkbox" onChange={changeTaskStatusHandler} checked={task.isDone}/>
-                <EditableSpan value={task.title} onChange={handleTaskTitleChange} />
-                <Button onClick={deleteTaskHandler} title={"x"}/>
+            <li className={'flex justify-between items-center not-last:mb-2.5'} key={task.id}>
+                <Checkbox checked={task.isDone} onCheckedChange={changeTaskStatusHandler}></Checkbox>
+                <EditableSpan value={task.title} onChange={handleTaskTitleChange}/>
+                <Button variant={'ghost'} size={'icon'} onClick={handleDeleteTask}>
+                    <BookmarkX/>
+                </Button>
             </li>
         )
     })
-    const renderedTasks = getFilteredTasks().length === 0 ? <p>Тасок нет</p> : <ul>{tasksList}</ul>
+    const renderedTasks = getFilteredTasks().length === 0
+        ? <p>Тасок нет</p>
+        : <ScrollArea className={'flex flex-col grow h-72 w-full rounded-md border p-2'}>{tasksList}</ScrollArea>
 
-    const handleAddTask = (title:string) => {
+    const handleAddTask = (title: string) => {
         addTask({todoListID: todoListID, title: title})
     }
 
@@ -111,24 +116,30 @@ export const TodolistItem = (props: Props) => {
     }
 
     return (
-        <div className="todolist">
-            <div className={"container"}>
-                <EditableSpan value={todoTitle} onChange={handleTodoTitleChange} />
-                <Button onClick={handleTodoRemove} title={"x"}/>
-            </div>
-            <AddItemForm onCreateItem={handleAddTask}/>
-            {renderedTasks}
-            <div className={"buttons"}>
-                <Button className={filter === "all" ? "active-filter" : ''} onClick={handleAllFilter}
-                        title="All"/>
-                <Button className={filter === "active" ? "active-filter" : ''} onClick={handleActiveFilter}
-                        title="Active"/>
-                <Button className={filter === "completed" ? "active-filter" : ''} onClick={handleCompletedFilter}
-                        title="Completed"/>
-
-            </div>
-            <Button className={'delete-all'} onClick={handleAllTasksDelete} title="Delete All Tasks"/>
-            <div>{date}</div>
-        </div>
+        <Card className="w-sm flex flex-col h-[600px] overflow-hidden">
+            <CardHeader className={"container"}>
+                <div className={'flex justify-between items-center'}>
+                    <EditableSpan value={todoTitle} onChange={handleTodoTitleChange}/>
+                    <Button variant={'ghost'} size={'icon'} onClick={handleTodoRemove}>
+                        <Delete/>
+                    </Button>
+                </div>
+                <AddItemForm placeholderValue={'Type your Task title'} onCreateItem={handleAddTask}/>
+            </CardHeader>
+            <CardContent className={'flex flex-col grow gap-6 overflow-auto'}>
+                {renderedTasks}
+            </CardContent>
+            <CardFooter className={'flex flex-col'}>
+                <div className={'flex justify-center gap-2'}>
+                    <Button variant={filter === 'all' ? 'default' : 'secondary'} onClick={handleAllFilter}>All</Button>
+                    <Button variant={filter === 'active' ? 'default' : 'secondary'}
+                            onClick={handleActiveFilter}>Active</Button>
+                    <Button variant={filter === 'completed' ? 'default' : 'secondary'}
+                            onClick={handleCompletedFilter}>Completed</Button>
+                    <Button variant={'destructive'} onClick={handleAllTasksDelete}>Delete All</Button>
+                </div>
+                <div>{date}</div>
+            </CardFooter>
+        </Card>
     )
 }

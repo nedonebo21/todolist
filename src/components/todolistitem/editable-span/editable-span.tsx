@@ -1,9 +1,12 @@
 import {ChangeEvent, useState} from "react";
+import {CardTitle} from "@/components/ui/card.tsx";
+import {Input} from "@/components/ui/input.tsx";
 
 type Props = {
     value: string
     onChange: (title: string) => void
 }
+
 
 export const EditableSpan = ({value,onChange}:Props) => {
     const [editMode, setEditMode] = useState<boolean>(false)
@@ -23,7 +26,7 @@ export const EditableSpan = ({value,onChange}:Props) => {
 
     return (
         editMode
-            ? <input onChange={handleTitleChange} onBlur={handleModeChange} value={title} autoFocus/>
-            : <span onDoubleClick={handleModeChange}>{value}</span>
+            ? <Input onChange={handleTitleChange} onBlur={handleModeChange} value={title} autoFocus/>
+            : <CardTitle className={'overflow-hidden whitespace-pre-wrap max-w-[100px] wrap-break-word'} onDoubleClick={handleModeChange}>{value}</CardTitle>
     )
 }

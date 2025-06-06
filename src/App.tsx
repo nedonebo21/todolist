@@ -1,4 +1,3 @@
-import './App.css'
 import {TodolistItem} from "./components/todolistitem/todolist-item.tsx";
 import {useReducer} from "react";
 import {v1} from "uuid";
@@ -18,6 +17,8 @@ import {
     deleteTodoAC,
     TodolistReducer
 } from "./reducers/todolist-reducer.ts";
+import {Header} from "@/components/header/header.tsx";
+import {ThemeProvider} from "@/components/theme-change/theme-provider.tsx";
 
 export type Task = {
     id: string
@@ -36,11 +37,11 @@ export type FilterValues = "all" | "active" | "completed"
 export const App = () => {
     const todoListID1 = v1()
     const todoListID2 = v1()
-    const [todoLists, dispatchTodoLists] = useReducer(TodolistReducer,[
+    const [todoLists, dispatchTodoLists] = useReducer(TodolistReducer, [
         {id: todoListID1, title: "what to learn", filter: "all"},
         {id: todoListID2, title: "what to buy", filter: "all"},
     ])
-    const [tasks, dispatchTasks] = useReducer(TasksReducer,{
+    const [tasks, dispatchTasks] = useReducer(TasksReducer, {
         [todoListID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -91,7 +92,7 @@ export const App = () => {
         dispatchTasks(addTasksNewTodoAC(newTodoId))
     }
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-        dispatchTasks(changeTaskTitleAC(todolistId,taskId, title))
+        dispatchTasks(changeTaskTitleAC(todolistId, taskId, title))
     }
     const changeTodoTitle = (todolistId: string, title: string) => {
         dispatchTodoLists(changeTodoTitleAC(todolistId, title))
@@ -99,31 +100,37 @@ export const App = () => {
 
 
     return (
-        <div className="app">
-            <AddItemForm onCreateItem={addTodoList}/>
-            <div className={'todolist-wrapper'}>
-                {todoLists.map(el => {
-                    return (
-                        <TodolistItem
-                            tasks={tasks[el.id]}
-                            key={el.id}
-                            todoListID={el.id}
-                            deleteAllTasks={deleteAllTasks}
-                            deleteTask={deleteTask}
-                            addTask={addTask}
-                            changeTaskStatus={changeTaskStatus}
-                            changeFilter={changeFilter}
-                            changeTaskTitle={changeTaskTitle}
-                            changeTodoTitle={changeTodoTitle}
-                            removeTodo={removeTodo}
-                            filter={el.filter}
-                            todoTitle={el.title}
-                            date="21.04.2025"/>
-                    )
-                })}
-            </div>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <div className="app">
+                <Header>
+                    <AddItemForm placeholderValue={'Type your Todolist title'} onCreateItem={addTodoList}/>
+                </Header>
+                <div className={'container max-w-6xl m-auto grid gap-4 justify-center'}>
 
-        </div>
+                    <div className={'flex justify-center gap-6 flex-wrap'}>
+                        {todoLists.map(el => {
+                            return (
+                                <TodolistItem
+                                    tasks={tasks[el.id]}
+                                    key={el.id}
+                                    todoListID={el.id}
+                                    deleteAllTasks={deleteAllTasks}
+                                    deleteTask={deleteTask}
+                                    addTask={addTask}
+                                    changeTaskStatus={changeTaskStatus}
+                                    changeFilter={changeFilter}
+                                    changeTaskTitle={changeTaskTitle}
+                                    changeTodoTitle={changeTodoTitle}
+                                    removeTodo={removeTodo}
+                                    filter={el.filter}
+                                    todoTitle={el.title}
+                                    date="21.04.2025"/>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+        </ThemeProvider>
     )
 }
 
