@@ -1,7 +1,8 @@
-import {Button} from "@/components/ui/button.tsx";
+import {Button} from "@/shared/ui/shadcn/button.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Input} from "@/components/ui/input.tsx";
-import {BookmarkPlus} from 'lucide-react'
+import {Input} from "@/shared/ui/shadcn/input.tsx";
+import {BookmarkPlus, InfoIcon} from 'lucide-react'
+import {cn} from "@/shared/lib/utils.ts";
 
 
 type ItemFormProps = {
@@ -33,12 +34,12 @@ export const AddItemForm = (props: ItemFormProps) => {
     }
 
     return (
-        <>
-            <div className={"flex gap-1"}>
+        <div className={'flex gap-2 flex-col'}>
+            <div className={"flex gap-1.5 items-center"}>
                 <Input
-                    size={2}
                     value={title}
-                    className={'w-[288px]'}
+                    className={cn(error && 'text-destructive')}
+                    aria-invalid={!!error}
                     placeholder={props.placeholderValue ?? 'Enter your title'}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}/>
@@ -46,7 +47,13 @@ export const AddItemForm = (props: ItemFormProps) => {
                     <BookmarkPlus/>
                 </Button>
             </div>
-            {error ? <div className={"text-red-600"}>{error}</div> : ''}
-        </>
+            {!!error && (
+                <div className={'flex text-destructive text-xs  gap-1'}>
+                    <span><InfoIcon className={'mt-[3px]'} size={12}/></span>
+                    <span>{error}</span>
+                </div>
+            )
+            }
+        </div>
     )
 }

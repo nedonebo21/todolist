@@ -1,7 +1,7 @@
-import {TodolistItem} from "./components/todolistitem/todolist-item.tsx";
+import {TodolistItem} from "../components/todolistitem/todolist-item.tsx";
 import {useReducer} from "react";
 import {v1} from "uuid";
-import {AddItemForm} from "./components/todolistitem/add-item-form/add-item-form.tsx";
+import {AddItemForm} from "../components/todolistitem/add-item-form/add-item-form.tsx";
 import {
     addTaskAC, addTasksNewTodoAC,
     changeTaskStatusAC,
@@ -9,16 +9,15 @@ import {
     deleteAllTasksAC,
     deleteTaskAC, deleteTasksAfterTodoAC,
     TasksReducer
-} from "./reducers/tasks-reducer.ts";
+} from "../reducers/tasks-reducer.ts";
 import {
     addTodoAC,
     changeFilterAC,
     changeTodoTitleAC,
     deleteTodoAC,
     TodolistReducer
-} from "./reducers/todolist-reducer.ts";
+} from "../reducers/todolist-reducer.ts";
 import {Header} from "@/components/header/header.tsx";
-import {ThemeProvider} from "@/components/theme-change/theme-provider.tsx";
 
 export type Task = {
     id: string
@@ -100,14 +99,13 @@ export const App = () => {
 
 
     return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <div className="app">
                 <Header>
                     <AddItemForm placeholderValue={'Type your Todolist title'} onCreateItem={addTodoList}/>
                 </Header>
-                <div className={'container max-w-6xl m-auto grid gap-4 justify-center'}>
+                <div className={'container mx-auto max-w-2xl'}>
 
-                    <div className={'flex justify-center gap-6 flex-wrap'}>
+                    <div className={'flex justify-center gap-3 flex-wrap'}>
                         {todoLists.map(el => {
                             return (
                                 <TodolistItem
@@ -130,7 +128,6 @@ export const App = () => {
                     </div>
                 </div>
             </div>
-        </ThemeProvider>
     )
 }
 

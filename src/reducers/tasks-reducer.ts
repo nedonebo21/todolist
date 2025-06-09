@@ -1,4 +1,4 @@
-import {Task, TasksState} from "../App.tsx";
+import {Task, TasksState} from "../app/App.tsx";
 import {v1} from "uuid";
 
 export const TasksReducer = (state: TasksState, action: ActionsType) => {
