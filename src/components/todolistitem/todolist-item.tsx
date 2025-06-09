@@ -94,9 +94,9 @@ export const TodolistItem = (props: Props) => {
         }
 
         return (
-            <li className={'flex justify-between gap-1.5 mt-[8px]'} key={task.id}>
-                <label className={'flex gap-3 flex-1'}>
-                    <Checkbox className={'mt-[6px]'} checked={task.isDone} onCheckedChange={changeTaskStatusHandler}></Checkbox>
+            <li className={'flex justify-between gap-1.5 items-center'} key={task.id}>
+                <label className={'flex gap-3 flex-1 items-center'}>
+                    <Checkbox checked={task.isDone} onCheckedChange={changeTaskStatusHandler}></Checkbox>
                     <EditableSpan className={cn(task.isDone && 'line-through opacity-50')}
                                   value={task.title} onChange={handleTaskTitleChange}/>
                 </label>
