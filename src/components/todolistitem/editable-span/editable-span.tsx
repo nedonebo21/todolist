@@ -29,6 +29,7 @@ export const EditableSpan = ({value, onChange, className}: Props) => {
                 onChange(title)
             } else {
                 setTitle(value)
+                setError(false)
             }
         }
         setEditMode(!editMode)
