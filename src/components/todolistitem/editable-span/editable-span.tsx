@@ -13,27 +13,25 @@ export const EditableSpan = ({value, onChange, className}: Props) => {
     const [title, setTitle] = useState<string>(value)
     const [error, setError] = useState<boolean>(false)
 
+    const isTitleValid = (title: string): boolean => title.trim().length > 0
+
     const spanStyles = 'overflow-hidden whitespace-pre-wrap max-w-[100px] wrap-break-word'
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const trimmedTitle = e.target.value.trim()
-        if (trimmedTitle !== ''){
-            setError(false)
-            setTitle(e.target.value)
-        } else {
-            setError(true)
-            setTitle(e.target.value)
-        }
-
+        const newTitle = e.target.value
+        setTitle(newTitle)
+        setError(!isTitleValid(newTitle))
     }
 
     const handleModeChange = () => {
-        setEditMode(!editMode)
         if(editMode){
-            if (title.trim() !== ''){
+            if (isTitleValid(title)){
                 onChange(title)
+            } else {
+                setTitle(value)
             }
         }
+        setEditMode(!editMode)
     }
 
 
