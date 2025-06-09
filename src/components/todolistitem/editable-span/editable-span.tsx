@@ -11,17 +11,28 @@ type Props = {
 export const EditableSpan = ({value, onChange, className}: Props) => {
     const [editMode, setEditMode] = useState<boolean>(false)
     const [title, setTitle] = useState<string>(value)
+    const [error, setError] = useState<boolean>(false)
 
     const spanStyles = 'overflow-hidden whitespace-pre-wrap max-w-[100px] wrap-break-word'
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value)
+        const trimmedTitle = e.target.value.trim()
+        if (trimmedTitle !== ''){
+            setError(false)
+            setTitle(e.target.value)
+        } else {
+            setError(true)
+            setTitle(e.target.value)
+        }
+
     }
 
     const handleModeChange = () => {
         setEditMode(!editMode)
         if(editMode){
-            onChange(title)
+            if (title.trim() !== ''){
+                onChange(title)
+            }
         }
     }
 
@@ -29,7 +40,7 @@ export const EditableSpan = ({value, onChange, className}: Props) => {
     return (
         <>
             {editMode
-                ? <Input className={className} onChange={handleTitleChange} onBlur={handleModeChange} value={title} autoFocus/>
+                ? <Input aria-invalid={error} className={className} onChange={handleTitleChange} onBlur={handleModeChange} value={title} autoFocus/>
                 : <span className={className ? `${className} ${spanStyles}` : spanStyles}
                              onDoubleClick={handleModeChange}>{value}</span>}
         </>
