@@ -134,7 +134,7 @@ export const TodolistItem = (props: Props) => {
                 </div>
             </CardHeader>
             <CardContent className={'flex-1'}>
-                <AddItemForm placeholderValue={'Type your Task title'} onCreateItem={handleAddTask}/>
+                <AddItemForm className={'mb-3'} placeholderValue={'Type your Task title'} onCreateItem={handleAddTask}/>
                 {renderedTasks}
             </CardContent>
             <CardFooter className={'w-full'}>

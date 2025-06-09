@@ -8,16 +8,19 @@ import {cn} from "@/shared/lib/utils.ts";
 type ItemFormProps = {
     onCreateItem: (title: string) => void
     placeholderValue?: string
+    className?: string
 }
 
 export const AddItemForm = (props: ItemFormProps) => {
+    const {onCreateItem, placeholderValue, className} = props
+
     const [error, setError] = useState<string | null>(null)
     const [title, setTitle] = useState('')
 
     const handleAddTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle !== "") {
-            props.onCreateItem(title)
+            onCreateItem(title)
             setTitle('')
         } else {
             setError("Title is required")
@@ -34,13 +37,13 @@ export const AddItemForm = (props: ItemFormProps) => {
     }
 
     return (
-        <div className={'flex gap-2 flex-col mb-3'}>
+        <div className={`flex gap-2 flex-col ${className}`}>
             <div className={"flex gap-1.5"}>
                 <Input
                     value={title}
                     className={cn(error && 'text-destructive')}
                     aria-invalid={!!error}
-                    placeholder={props.placeholderValue ?? 'Enter your title'}
+                    placeholder={placeholderValue ?? 'Enter your title'}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}/>
                 <Button size={'icon'} onClick={handleAddTask}>
