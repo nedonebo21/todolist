@@ -94,10 +94,10 @@ export const TodolistItem = (props: Props) => {
         }
 
         return (
-            <li className={'flex justify-between gap-1.5 items-center'} key={task.id}>
-                <label className={'flex gap-3 items-center flex-1'}>
-                    <Checkbox checked={task.isDone} onCheckedChange={changeTaskStatusHandler}></Checkbox>
-                    <EditableSpan className={cn('h-7 flex items-center', task.isDone && 'line-through opacity-50')}
+            <li className={'flex justify-between gap-1.5 mt-[8px]'} key={task.id}>
+                <label className={'flex gap-3 flex-1'}>
+                    <Checkbox className={'mt-[6px]'} checked={task.isDone} onCheckedChange={changeTaskStatusHandler}></Checkbox>
+                    <EditableSpan className={cn(task.isDone && 'line-through opacity-50')}
                                   value={task.title} onChange={handleTaskTitleChange}/>
                 </label>
                 <Button variant={'ghost'} size={'icon'} onClick={handleDeleteTask}>
@@ -108,7 +108,7 @@ export const TodolistItem = (props: Props) => {
     })
     const renderedTasks = getFilteredTasks().length === 0
         ? <p>Тасок нет</p>
-        : <ScrollArea className={'h-full max-h-64 -mr-2'}><ul className={'pr-2'}>{tasksList}</ul></ScrollArea>
+        : <ScrollArea className={'h-full max-h-64 -mr-2'}><ul className={'pr-2 flex flex-col gap-2'}>{tasksList}</ul></ScrollArea>
 
     const handleAddTask = (title: string) => {
         addTask({todoListID: todoListID, title: title})

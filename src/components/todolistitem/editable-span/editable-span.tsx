@@ -15,7 +15,7 @@ export const EditableSpan = ({value, onChange, className}: Props) => {
 
     const isTitleValid = (title: string): boolean => title.trim().length > 0
 
-    const spanStyles = 'overflow-hidden whitespace-pre-wrap max-w-[100px] wrap-break-word'
+    const spanStyles = 'whitespace-pre-wrap max-w-[200px] wrap-break-word'
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newTitle = e.target.value
@@ -39,7 +39,7 @@ export const EditableSpan = ({value, onChange, className}: Props) => {
     return (
         <>
             {editMode
-                ? <Input aria-invalid={error} className={className} onChange={handleTitleChange} onBlur={handleModeChange} value={title} autoFocus/>
+                ? <Input aria-invalid={error} className={'h-7'} onChange={handleTitleChange} onBlur={handleModeChange} value={title} autoFocus/>
                 : <span className={className ? `${className} ${spanStyles}` : spanStyles}
                              onDoubleClick={handleModeChange}>{value}</span>}
         </>

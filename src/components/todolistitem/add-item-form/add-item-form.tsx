@@ -34,8 +34,8 @@ export const AddItemForm = (props: ItemFormProps) => {
     }
 
     return (
-        <div className={'flex gap-2 flex-col'}>
-            <div className={"flex gap-1.5 items-center"}>
+        <div className={'flex gap-2 flex-col mb-3'}>
+            <div className={"flex gap-1.5"}>
                 <Input
                     value={title}
                     className={cn(error && 'text-destructive')}
