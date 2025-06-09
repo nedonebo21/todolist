@@ -9,7 +9,7 @@ import {
 } from "@/shared/ui/shadcn/dropdown-menu.tsx"
 import { useTheme } from "@/shared/lib/theme.ts"
 
-export function ThemeToggleButton() {
+export function ThemeToggle() {
     const { setTheme } = useTheme()
 
     return (

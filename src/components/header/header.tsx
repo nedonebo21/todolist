@@ -1,6 +1,6 @@
 import {Button} from '@/shared/ui/shadcn/button.tsx'
 import {ReactNode} from 'react'
-import {ThemeToggleButton} from '@/components/theme-toggle/ui/theme-toggle-button.tsx'
+import {ThemeToggle} from '@/components/theme-toggle'
 
 type Props = {
     children: ReactNode
@@ -19,7 +19,7 @@ export const Header = (props: Props) => {
                 <div className={'justify-self-end'}>
                     <div className={'flex items-center gap-4'}>
                         <Button>Sign in</Button>
-                        <ThemeToggleButton/>
+                        <ThemeToggle/>
                     </div>
                 </div>
             </div>
