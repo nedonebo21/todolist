@@ -37,7 +37,7 @@ export const AddItemForm = (props: ItemFormProps) => {
     }
 
     return (
-        <div className={`flex gap-2 flex-col ${className}`}>
+        <div className={`flex gap-1 flex-col ${className}`}>
             <div className={"flex gap-1.5"}>
                 <Input
                     value={title}
