@@ -1,6 +1,5 @@
 import {TodolistItem} from "../components/todolistitem/todolist-item.tsx";
 import {useReducer} from "react";
-import {v1} from "uuid";
 import {AddItemForm} from "../components/todolistitem/add-item-form/add-item-form.tsx";
 import {
     addTaskAC, addTasksNewTodoAC,
@@ -34,27 +33,8 @@ export type TasksState = Record<string, Task[]>
 export type FilterValues = "all" | "active" | "completed"
 
 export const App = () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
-    const [todoLists, dispatchTodoLists] = useReducer(TodolistReducer, [
-        {id: todoListID1, title: "what to learn", filter: "all"},
-        {id: todoListID2, title: "what to buy", filter: "all"},
-    ])
-    const [tasks, dispatchTasks] = useReducer(TasksReducer, {
-        [todoListID1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Redux", isDone: false},
-            {id: v1(), title: "TS", isDone: false},
-            {id: v1(), title: "RTK Query", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: v1(), title: "Headphones", isDone: true},
-            {id: v1(), title: "glasses", isDone: false},
-            {id: v1(), title: "Chair", isDone: false},
-        ],
-    })
+    const [todoLists, dispatchTodoLists] = useReducer(TodolistReducer, [])
+    const [tasks, dispatchTasks] = useReducer(TasksReducer, {})
 
     const deleteTask = (payload: { todoListID: string, taskId: string }) => {
         const {todoListID, taskId} = payload
@@ -82,13 +62,13 @@ export const App = () => {
     const removeTodo = (payload: { todoListID: string }) => {
         const {todoListID} = payload
         dispatchTodoLists(deleteTodoAC(todoListID))
+        delete tasks[todoListID]
         dispatchTasks(deleteTasksAfterTodoAC(todoListID))
     }
     const addTodoList = (title: string) => {
-        const newTodoId = v1()
-        const newTodo: TodoListType = {id: newTodoId, title, filter: 'all'}
-        dispatchTodoLists(addTodoAC(newTodo))
-        dispatchTasks(addTasksNewTodoAC(newTodoId))
+        const action = addTodoAC(title)
+        dispatchTodoLists(action)
+        dispatchTasks(addTasksNewTodoAC(action.payload.id))
     }
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
         dispatchTasks(changeTaskTitleAC(todolistId, taskId, title))

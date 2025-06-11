@@ -1,7 +1,9 @@
 import {Task, TasksState} from "../app/App.tsx";
 import {v1} from "uuid";
 
-export const TasksReducer = (state: TasksState, action: ActionsType) => {
+const initialState: TasksState = {}
+
+export const TasksReducer = (state: TasksState = initialState, action: ActionsType): TasksState => {
     switch (action.type) {
         case 'ADD-TASK': {
             const newTitle = action.payload.title
