@@ -30,8 +30,7 @@
     "react-redux": "^9.2.0",
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.0",
-    "tailwindcss": "^4.1.8",
-    "uuid": "^11.1.0"
+    "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
