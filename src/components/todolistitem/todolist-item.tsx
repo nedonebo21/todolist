@@ -14,15 +14,15 @@ type Props = {
     tasks: Task[]
     date?: string
     filter: FilterValues
-    deleteTask: (payload: { todoListID: string, taskId: string }) => void
-    deleteAllTasks: (payload: { todoListID: string }) => void
-    addTask: (payload: { todoListID: string, title: string }) => void
-    changeTaskStatus: (payload: { todoListID: string, taskId: string, isDone: boolean }) => void
-    changeFilter: (payload: { todoListID: string, filter: FilterValues }) => void
-    removeTodo: (payload: { todoListID: string }) => void
+    deleteTask: (todolistId: string, taskId: string) => void
+    deleteAllTasks: (todolistId: string) => void
+    addTask: (todolistId: string, title: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    changeFilter: (todolistId: string, filter: FilterValues) => void
+    removeTodo: (todolistId: string) => void
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
     changeTodoTitle: (todolistId: string, title: string) => void
-    todoListID: string
+    todolistId: string
 }
 
 export const TodolistItem = (props: Props) => {
@@ -39,7 +39,7 @@ export const TodolistItem = (props: Props) => {
         changeTaskTitle,
         changeTodoTitle,
         removeTodo,
-        todoListID,
+        todolistId,
     } = props
 
     const getFilteredTasks = () => {
@@ -53,44 +53,28 @@ export const TodolistItem = (props: Props) => {
         return filteredTasks
     }
 
-    const handleAllTasksDelete = () => deleteAllTasks({todoListID: todoListID})
+    const handleAllTasksDelete = () => deleteAllTasks(todolistId)
 
     const handleAllFilter = () =>
-        changeFilter({
-            todoListID: todoListID,
-            filter: "all"
-        })
+        changeFilter(todolistId, "all")
     const handleActiveFilter = () =>
-        changeFilter({
-            todoListID: todoListID,
-            filter: "active"
-        })
+        changeFilter(todolistId, "active")
     const handleCompletedFilter = () =>
-        changeFilter({
-            todoListID: todoListID,
-            filter: "completed"
-        })
+        changeFilter(todolistId, "completed")
 
 
     const tasksList = getFilteredTasks().map(task => {
         const handleDeleteTask = () => {
-            deleteTask({
-                todoListID: todoListID,
-                taskId: task.id
-            })
+            deleteTask(todolistId, task.id)
 
             toast.success(`Task ${task.title} deleted`)
         }
         const changeTaskStatusHandler = (checked: boolean) => {
-            changeTaskStatus({
-                todoListID: todoListID,
-                taskId: task.id,
-                isDone: checked
-            })
+            changeTaskStatus(todolistId, task.id, checked)
         }
 
         const handleTaskTitleChange = (title: string) => {
-            changeTaskTitle(todoListID, task.id, title)
+            changeTaskTitle(todolistId, task.id, title)
         }
 
         return (
@@ -108,19 +92,21 @@ export const TodolistItem = (props: Props) => {
     })
     const renderedTasks = getFilteredTasks().length === 0
         ? <p>Тасок нет</p>
-        : <ScrollArea className={'h-full max-h-64 -mr-2'}><ul className={'pr-2 flex flex-col gap-2'}>{tasksList}</ul></ScrollArea>
+        : <ScrollArea className={'h-full max-h-64 -mr-2'}>
+            <ul className={'pr-2 flex flex-col gap-2'}>{tasksList}</ul>
+        </ScrollArea>
 
     const handleAddTask = (title: string) => {
-        addTask({todoListID: todoListID, title: title})
+        addTask(todolistId, title)
     }
 
     const handleTodoRemove = () => {
-        removeTodo({todoListID: todoListID})
+        removeTodo(todolistId)
         toast.success(`Todolist ${todoTitle} deleted`)
     }
 
     const handleTodoTitleChange = (title: string) => {
-        changeTodoTitle(todoListID, title)
+        changeTodoTitle(todolistId, title)
     }
 
     return (
@@ -150,7 +136,8 @@ export const TodolistItem = (props: Props) => {
                                 variant={filter === 'completed' ? 'default' : 'outline'}
                                 onClick={handleCompletedFilter}>Completed</Button>
                     </div>
-                    <Button size={'sm'} className={'border-1 border-solid border-transparent w-full'} variant={'destructive'}
+                    <Button size={'sm'} className={'border-1 border-solid border-transparent w-full'}
+                            variant={'destructive'}
                             onClick={handleAllTasksDelete}>Delete All</Button>
                     <div>{date}</div>
                 </div>

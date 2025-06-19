@@ -1,22 +1,22 @@
 import {TodolistItem} from "../components/todolistitem/todolist-item.tsx";
-import {useReducer} from "react";
 import {AddItemForm} from "../components/todolistitem/add-item-form/add-item-form.tsx";
 import {
-    addTaskAC, addTasksNewTodoAC,
     changeTaskStatusAC,
-    changeTaskTitleAC,
+    changeTaskTitleAC, createTaskAC,
     deleteAllTasksAC,
-    deleteTaskAC, deleteTasksAfterTodoAC,
-    TasksReducer
-} from "../reducers/tasks-reducer.ts";
+    deleteTaskAC,
+} from "../model/tasks-reducer.ts";
 import {
-    addTodoAC,
-    changeFilterAC,
-    changeTodoTitleAC,
-    deleteTodoAC,
-    TodolistReducer
-} from "../reducers/todolist-reducer.ts";
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    createTodolistAC,
+    deleteTodolistAC,
+} from "../model/todolist-reducer.ts";
 import {Header} from "@/components/header/header.tsx";
+import {useAppSelector} from "@/shared/lib/hooks/use-app-selector.ts";
+import {selectTodolists} from "@/model/selectors/todolists-selectors.ts";
+import {selectTasks} from "@/model/selectors/tasks-selectors.ts";
+import {useAppDispatch} from "@/shared/lib/hooks/use-app-dispatch.ts";
 
 export type Task = {
     id: string
@@ -33,81 +33,73 @@ export type TasksState = Record<string, Task[]>
 export type FilterValues = "all" | "active" | "completed"
 
 export const App = () => {
-    const [todoLists, dispatchTodoLists] = useReducer(TodolistReducer, [])
-    const [tasks, dispatchTasks] = useReducer(TasksReducer, {})
+    const todoLists = useAppSelector(selectTodolists)
+    const tasks = useAppSelector(selectTasks)
+    const dispatch = useAppDispatch()
 
-    const deleteTask = (payload: { todoListID: string, taskId: string }) => {
-        const {todoListID, taskId} = payload
-        dispatchTasks(deleteTaskAC(todoListID, taskId))
+    const deleteTask = (todolistId: string, taskId: string) => {
+        dispatch(deleteTaskAC({todolistId, taskId}))
     }
-    const deleteAllTasks = (payload: { todoListID: string }) => {
-        const {todoListID} = payload
-        dispatchTasks(deleteAllTasksAC(todoListID))
-    }
-
-    const addTask = (payload: { todoListID: string, title: string }) => {
-        const {todoListID, title} = payload
-        dispatchTasks(addTaskAC(todoListID, title))
+    const deleteAllTasks = (todolistId: string) => {
+        dispatch(deleteAllTasksAC({todolistId}))
     }
 
-    const changeTaskStatus = (payload: { todoListID: string, taskId: string, isDone: boolean }) => {
-        const {todoListID, taskId, isDone} = payload
-        dispatchTasks(changeTaskStatusAC(todoListID, taskId, isDone))
+    const addTask = (todolistId: string, title: string) => {
+        dispatch(createTaskAC({todolistId, title}))
     }
 
-    const changeFilter = (payload: { todoListID: string, filter: FilterValues }) => {
-        const {todoListID, filter} = payload
-        dispatchTodoLists(changeFilterAC(todoListID, filter))
+    const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => {
+        dispatch(changeTaskStatusAC({todolistId, taskId, isDone}))
     }
-    const removeTodo = (payload: { todoListID: string }) => {
-        const {todoListID} = payload
-        dispatchTodoLists(deleteTodoAC(todoListID))
-        delete tasks[todoListID]
-        dispatchTasks(deleteTasksAfterTodoAC(todoListID))
+
+    const changeFilter = (todolistId: string, filter: FilterValues) => {
+        dispatch(changeTodolistFilterAC({id: todolistId, filter}))
+    }
+    const removeTodo = (todolistId: string) => {
+        dispatch(deleteTodolistAC({id: todolistId}))
     }
     const addTodoList = (title: string) => {
-        const action = addTodoAC(title)
-        dispatchTodoLists(action)
-        dispatchTasks(addTasksNewTodoAC(action.payload.id))
+        const action = createTodolistAC(title)
+        dispatch(action)
     }
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-        dispatchTasks(changeTaskTitleAC(todolistId, taskId, title))
+        dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
     const changeTodoTitle = (todolistId: string, title: string) => {
-        dispatchTodoLists(changeTodoTitleAC(todolistId, title))
+        dispatch(changeTodolistTitleAC({id: todolistId, title}))
     }
 
 
     return (
-            <div className="app">
-                <Header>
-                    <AddItemForm placeholderValue={'Type your Todolist title'} onCreateItem={addTodoList}/>
-                </Header>
-                <div className={'container mx-auto max-w-2xl'}>
+        <div className="app">
+            <Header>
+                <AddItemForm placeholderValue={'Type your Todolist title'} onCreateItem={addTodoList}/>
+            </Header>
+            <div className={'container mx-auto max-w-2xl'}>
 
-                    <div className={'flex justify-center gap-3 flex-wrap'}>
-                        {todoLists.map(el => {
-                            return (
-                                <TodolistItem
-                                    tasks={tasks[el.id]}
-                                    key={el.id}
-                                    todoListID={el.id}
-                                    deleteAllTasks={deleteAllTasks}
-                                    deleteTask={deleteTask}
-                                    addTask={addTask}
-                                    changeTaskStatus={changeTaskStatus}
-                                    changeFilter={changeFilter}
-                                    changeTaskTitle={changeTaskTitle}
-                                    changeTodoTitle={changeTodoTitle}
-                                    removeTodo={removeTodo}
-                                    filter={el.filter}
-                                    todoTitle={el.title}
-                                    date="21.04.2025"/>
-                            )
-                        })}
-                    </div>
+                <div className={'flex justify-center gap-3 flex-wrap'}>
+                    {todoLists.map(el => {
+                        return (
+                            <TodolistItem
+                                tasks={tasks[el.id]}
+                                key={el.id}
+                                todolistId={el.id}
+                                deleteAllTasks={deleteAllTasks}
+                                deleteTask={deleteTask}
+                                addTask={addTask}
+                                changeTaskStatus={changeTaskStatus}
+                                changeFilter={changeFilter}
+                                changeTaskTitle={changeTaskTitle}
+                                changeTodoTitle={changeTodoTitle}
+                                removeTodo={removeTodo}
+                                filter={el.filter}
+                                todoTitle={el.title}
+                                date="21.04.2025"/>
+                        )
+                    })}
                 </div>
             </div>
+        </div>
     )
 }
 
