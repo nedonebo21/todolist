@@ -5,7 +5,7 @@ import {
     changeTaskTitleAC, createTaskAC,
     deleteTaskAC,
     tasksReducer
-} from "@/model/tasks-reducer.ts";
+} from "@/features/todolists/model/tasks-reducer.ts";
 import {nanoid} from "@reduxjs/toolkit";
 
 let startState: TasksState

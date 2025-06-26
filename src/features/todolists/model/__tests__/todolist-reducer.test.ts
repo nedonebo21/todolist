@@ -5,7 +5,7 @@ import {
     changeTodolistTitleAC,
     createTodolistAC, deleteTodolistAC,
     todolistReducer
-} from "@/model/todolist-reducer.ts";
+} from "@/features/todolists/model/todolist-reducer.ts";
 import {nanoid} from "@reduxjs/toolkit";
 
 let todolistId1: string
