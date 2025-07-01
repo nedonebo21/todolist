@@ -1,5 +1,5 @@
 import {Button} from '@/shared/ui/shadcn/button.tsx'
-import {ThemeToggle} from '@/components/theme-toggle'
+import {ThemeToggle} from '@/features/theme-toggle'
 
 export const Header = () => {
     return (
