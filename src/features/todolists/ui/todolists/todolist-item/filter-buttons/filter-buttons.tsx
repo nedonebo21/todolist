@@ -1,6 +1,6 @@
 import { Button } from "@/shared/ui/shadcn/button.tsx"
 import { FilterValues, TodoListType } from "@/app/App.tsx"
-import { changeTodolistFilterAC } from "@/features/todolists/model/todolist-reducer.ts"
+import { changeTodolistFilterAC } from "@/features/todolists/model/todolists-slice.ts"
 import { useAppDispatch } from "@/shared/lib/hooks/use-app-dispatch.ts"
 type Props = {
   todolist: TodoListType

@@ -1,7 +1,7 @@
 import { ScrollArea } from "@/shared/ui/shadcn/scroll-area.tsx"
 import { TodoListType } from "@/app/App.tsx"
 import { useAppSelector } from "@/shared/lib/hooks/use-app-selector.ts"
-import { selectTasks } from "@/features/todolists/model/selectors/tasks-selectors.ts"
+import { selectTasks } from "@/features/todolists/model/tasks-slice.ts"
 import { TaskItem } from "@/features/todolists/ui/todolists/todolist-item/tasks/task-item/task-item.tsx"
 
 type Props = {
@@ -18,10 +18,10 @@ export const Tasks = ({ todolist }: Props) => {
 
   return (
     <ScrollArea>
-      {todolistTasks.length === 0 ? (
+      {filteredTasks?.length === 0 ? (
         <p>Тасок нет</p>
       ) : (
-        filteredTasks.map((task) => <TaskItem task={task} todolistId={id} />)
+        filteredTasks?.map((task) => <TaskItem key={task.id} task={task} todolistId={id} />)
       )}
     </ScrollArea>
   )
