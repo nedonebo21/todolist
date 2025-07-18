@@ -4,7 +4,7 @@ import { AddItemForm } from "@/shared/ui/add-item-form/add-item-form.tsx"
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/ui/shadcn/card.tsx"
 import { toast } from "sonner"
 import { useAppDispatch } from "@/shared/lib/hooks/use-app-dispatch.ts"
-import { createTaskAC, deleteAllTasksAC } from "@/features/todolists/model/tasks-reducer.ts"
+import { createTaskAC, deleteAllTasksAC } from "@/features/todolists/model/tasks-slice.ts"
 import { TodolistTitle } from "@/features/todolists/ui/todolists/todolist-item/todolist-title/todolist-title.tsx"
 import { Tasks } from "@/features/todolists/ui/todolists/todolist-item/tasks/tasks.tsx"
 import { FilterButtons } from "@/features/todolists/ui/todolists/todolist-item/filter-buttons/filter-buttons.tsx"
@@ -21,7 +21,7 @@ export const TodolistItem = ({ todolist }: Props) => {
     toast.success(`All tasks has been deleted`)
   }
   const addTask = (title: string) => {
-    dispatch(createTaskAC({ todolistId: id, title }))
+    dispatch(createTaskAC(id, title))
   }
 
   return (
