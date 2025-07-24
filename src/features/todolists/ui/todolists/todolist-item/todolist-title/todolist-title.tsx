@@ -7,7 +7,7 @@ import {
   deleteTodolistTC
 } from "@/features/todolists/model/todolists-slice.ts"
 import { TodoListType } from "@/app/App.tsx"
-import { useAppDispatch } from "@/shared/lib/hooks/use-app-dispatch.ts"
+import {useAppDispatch} from "@/shared/lib/hooks";
 
 type Props = {
   todolist: TodoListType
