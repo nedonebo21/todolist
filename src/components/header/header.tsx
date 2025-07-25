@@ -1,7 +1,11 @@
 import { Button } from "@/shared/ui/shadcn/button.tsx"
 import { ThemeToggle } from "@/features/theme-toggle"
+import {Progress} from "@/shared/ui/shadcn/progress.tsx";
+import {useAppSelector} from "@/shared/lib/hooks";
+import {selectStatus} from "@/app/app-slice.ts";
 
 export const Header = () => {
+  const status = useAppSelector(selectStatus)
   return (
     <header className={"sticky top-0 z-10 w-full border-b mb-5 bg-transparent backdrop-blur-sm"}>
       <div className={"container flex gap-6 h-16 items-center justify-between mx-auto px-4"}>
@@ -13,6 +17,9 @@ export const Header = () => {
           </div>
         </div>
       </div>
+      {
+        status === 'pending' && <Progress/>
+      }
     </header>
   )
 }
