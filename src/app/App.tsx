@@ -1,17 +1,12 @@
 import { Header } from "@/components/header/header.tsx"
 import { Main } from "@/app/main.tsx"
-
-export type Task = {
-  id: string
-  title: string
-  isDone: boolean
-}
+import {DomainTask} from "@/features/todolists/api";
 export type TodoListType = {
   id: string
   title: string
   filter: FilterValues
 }
-export type TasksState = Record<string, Task[]>
+export type TasksState = Record<string, DomainTask[]>
 
 export type FilterValues = "all" | "active" | "completed"
 
