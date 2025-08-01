@@ -1,1 +1,1 @@
-export type {BaseResponse} from './types.ts'
+export type { BaseResponse } from './types.ts'
