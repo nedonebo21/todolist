@@ -9,7 +9,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
     <Provider store={store}>
       <ThemeProvider>
         {children}
-        <Toaster />
+        <Toaster/>
       </ThemeProvider>
     </Provider>
   )

@@ -6,15 +6,15 @@ import {
   changeTodolistTitleTC,
   deleteTodolistTC
 } from "@/features/todolists/model/todolists-slice.ts"
-import { TodoListType } from "@/app/App.tsx"
 import {useAppDispatch} from "@/shared/lib/hooks";
+import {DomainTodolist} from "@/features/todolists/api/todolists-api.types.ts";
 
 type Props = {
-  todolist: TodoListType
+  todolist: DomainTodolist
 }
 
 export const TodolistTitle = ({ todolist }: Props) => {
-  const { id, title } = todolist
+  const { id, title, entityStatus } = todolist
   const dispatch = useAppDispatch()
   const removeTodo = () => {
     toast.success(`Todolist ${title} deleted`)
@@ -25,8 +25,8 @@ export const TodolistTitle = ({ todolist }: Props) => {
   }
   return (
     <div className={"flex justify-between items-center gap-2"}>
-      <EditableSpan value={title} onChange={changeTodoTitle} />
-      <Button variant={"ghost"} size={"icon"} onClick={removeTodo}>
+      <EditableSpan disabled={entityStatus === 'pending'} value={title} onChange={changeTodoTitle} />
+      <Button disabled={entityStatus === 'pending'} variant={"ghost"} size={"icon"} onClick={removeTodo}>
         <TrashIcon className={"text-destructive"} />
       </Button>
     </div>

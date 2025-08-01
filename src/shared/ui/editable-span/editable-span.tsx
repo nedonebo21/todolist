@@ -5,9 +5,10 @@ type Props = {
   value: string
   onChange: (title: string) => void
   className?: string
+  disabled?: boolean
 }
 
-export const EditableSpan = ({ value, onChange, className }: Props) => {
+export const EditableSpan = ({ value, onChange, className, disabled }: Props) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [title, setTitle] = useState<string>(value)
   const [error, setError] = useState<boolean>(false)
@@ -23,6 +24,9 @@ export const EditableSpan = ({ value, onChange, className }: Props) => {
   }
 
   const handleModeChange = () => {
+    if (disabled){
+      return
+    }
     if (editMode) {
       if (isTitleValid(title)) {
         onChange(title)

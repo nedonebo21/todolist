@@ -8,12 +8,14 @@ import {toast} from "sonner"
 import {useAppDispatch} from "@/shared/lib/hooks/use-app-dispatch.ts"
 import {TaskStatus} from "@/shared/enums";
 import {DomainTask} from "@/features/todolists/api";
+import {DomainTodolist} from "@/features/todolists/api/todolists-api.types.ts";
 
 type Props = {
-  todolistId: string
+  todolist: DomainTodolist
   task: DomainTask
 }
-export const TaskItem = ({task, todolistId}: Props) => {
+export const TaskItem = ({task, todolist}: Props) => {
+  const {id: todolistId, entityStatus} = todolist
   const dispatch = useAppDispatch()
   const deleteTask = () => {
     dispatch(deleteTaskTC({todolistId, taskId: task.id}))
@@ -39,14 +41,15 @@ export const TaskItem = ({task, todolistId}: Props) => {
   return (
       <li className={"flex justify-between gap-1.5 items-center"} key={task.id}>
         <label className={"flex gap-3 flex-1 items-center"}>
-          <Checkbox checked={isTaskCompleted} onCheckedChange={changeTaskStatus}></Checkbox>
+          <Checkbox disabled={entityStatus === 'pending'} checked={isTaskCompleted} onCheckedChange={changeTaskStatus}></Checkbox>
           <EditableSpan
+              disabled={entityStatus === 'pending'}
               className={cn(isTaskCompleted && "line-through opacity-50")}
               value={task.title}
               onChange={changeTaskTitle}
           />
         </label>
-        <Button variant={"ghost"} size={"icon"} onClick={deleteTask}>
+        <Button disabled={entityStatus === 'pending'} variant={"ghost"} size={"icon"} onClick={deleteTask}>
           <TrashIcon className={"text-destructive"}/>
         </Button>
       </li>
