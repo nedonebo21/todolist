@@ -15,8 +15,8 @@ beforeEach(() => {
   todolistId2 = nanoid()
 
   startState = [
-    {id: todolistId1, title: 'What to learn', addedDate: '', order: 0, filter: 'all'},
-    {id: todolistId2, title: 'What to buy', addedDate: '', order: 0, filter: 'all'},
+    {id: todolistId1, title: 'What to learn', addedDate: '', order: 0, filter: 'all', entityStatus: 'succeeded'},
+    {id: todolistId2, title: 'What to buy', addedDate: '', order: 0, filter: 'all', entityStatus: 'succeeded'},
   ]
 })
 
@@ -26,7 +26,8 @@ test("correct todo should be add", () => {
     title: 'yo',
     addedDate: '',
     order: 0,
-    filter: 'all'
+    filter: 'all',
+    entityStatus: 'succeeded'
   }
   const endState = todolistReducer(
       startState,

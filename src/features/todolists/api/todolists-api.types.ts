@@ -1,4 +1,5 @@
 import {FilterValues} from "@/app/App.tsx";
+import {RequestStatus} from "@/shared/types/types.ts";
 
 export type Todolist = {
   id: string
@@ -9,4 +10,5 @@ export type Todolist = {
 
 export type DomainTodolist = Todolist & {
   filter: FilterValues
+  entityStatus: RequestStatus
 }
