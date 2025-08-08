@@ -1,6 +1,6 @@
 import { Header } from '@/components/header/header.tsx'
-import { Main } from '@/app/main.tsx'
 import { DomainTask } from '@/features/todolists/api'
+import { Routing } from '@/shared/routing/routing.tsx'
 export type TodoListType = {
    id: string
    title: string
@@ -14,7 +14,7 @@ export const App = () => {
    return (
       <div className="app">
          <Header />
-         <Main />
+         <Routing />
       </div>
    )
 }
