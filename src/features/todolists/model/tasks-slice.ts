@@ -5,6 +5,7 @@ import { tasksApi, UpdateTaskModel } from '@/features/todolists/api'
 import { RootState } from '@/app/store.ts'
 import { setAppStatusAC } from '@/app/app-slice.ts'
 import { ResultCode } from '@/shared/enums/enums.ts'
+import { domainTaskSchema } from '@/features/todolists/api/tasks-api.types.ts'
 
 export const tasksSlice = createAppSlice({
    name: 'tasks',
@@ -18,6 +19,7 @@ export const tasksSlice = createAppSlice({
             try {
                dispatch(setAppStatusAC({ status: 'pending' }))
                const res = await tasksApi.getTasks(todolistId)
+               domainTaskSchema.array().parse(res.data.items)
                dispatch(setAppStatusAC({ status: 'succeeded' }))
                return { todolistId, tasks: res.data.items }
             } catch (error) {
