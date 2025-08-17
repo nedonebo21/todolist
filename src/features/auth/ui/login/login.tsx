@@ -14,8 +14,10 @@ import { Checkbox } from '@/shared/ui/shadcn/checkbox.tsx'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginInputs, loginSchema } from '@/features/auth/lib/schemas/login-schema.ts'
-import { useAppDispatch } from '@/shared/lib/hooks'
-import { loginTC } from '@/features/auth/model/auth-slice.ts'
+import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks'
+import { loginTC, selectIsLoggedIn } from '@/features/auth/model/auth-slice.ts'
+import { Navigate } from 'react-router'
+import { Path } from '@/shared/routing'
 
 export function Login() {
    const {
@@ -32,7 +34,7 @@ export function Login() {
          rememberMe: false,
       },
    })
-
+   const isLoggedIn = useAppSelector(selectIsLoggedIn)
    const dispatch = useAppDispatch()
 
    const onSubmit: SubmitHandler<LoginInputs> = data => {
@@ -40,6 +42,8 @@ export function Login() {
       dispatch(loginTC(data))
       reset()
    }
+
+   if (isLoggedIn) return <Navigate to={Path.Main} />
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
