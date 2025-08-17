@@ -6,6 +6,7 @@ import { setAppStatusAC } from '@/app/app-slice.ts'
 import { RequestStatus } from '@/shared/types/types.ts'
 import { handleServerNetworkError } from '@/shared/utils/handle-server-network-error.ts'
 import { ResultCode } from '@/shared/enums/enums.ts'
+import { clearDataAC } from '@/shared/actions'
 
 export const todolistsSlice = createAppSlice({
    name: 'todolists',
@@ -127,6 +128,11 @@ export const todolistsSlice = createAppSlice({
          }
       ),
    }),
+   extraReducers: builder => {
+      builder.addCase(clearDataAC.type, () => {
+         return []
+      })
+   },
    selectors: {
       selectTodolists: state => state,
    },
