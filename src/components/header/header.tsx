@@ -19,7 +19,7 @@ export const Header = () => {
    }
 
    useEffect(() => {
-      const timer = setTimeout(() => setProgress(66), 500)
+      const timer = setTimeout(() => setProgress(66), 300)
       return () => clearTimeout(timer)
    }, [])
 
@@ -34,7 +34,7 @@ export const Header = () => {
                </div>
             </div>
          </div>
-         {status === 'pending' && <Progress value={progress} />}
+         {status === 'pending' && <Progress className={'absolute'} value={progress} />}
       </header>
    )
 }
