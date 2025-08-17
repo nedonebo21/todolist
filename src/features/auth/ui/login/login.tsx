@@ -14,6 +14,8 @@ import { Checkbox } from '@/shared/ui/shadcn/checkbox.tsx'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginInputs, loginSchema } from '@/features/auth/lib/schemas/login-schema.ts'
+import { useAppDispatch } from '@/shared/lib/hooks'
+import { loginTC } from '@/features/auth/model/auth-slice.ts'
 
 export function Login() {
    const {
@@ -31,8 +33,11 @@ export function Login() {
       },
    })
 
+   const dispatch = useAppDispatch()
+
    const onSubmit: SubmitHandler<LoginInputs> = data => {
       console.log(data)
+      dispatch(loginTC(data))
       reset()
    }
 
