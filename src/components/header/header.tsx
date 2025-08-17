@@ -4,8 +4,11 @@ import { Progress } from '@/shared/ui/shadcn/progress.tsx'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks'
 import { selectStatus } from '@/app/app-slice.ts'
 import { logoutTC, selectIsLoggedIn } from '@/features/auth/model/auth-slice.ts'
+import { useEffect, useState } from 'react'
 
 export const Header = () => {
+   const [progress, setProgress] = useState(13)
+
    const isLoggedIn = useAppSelector(selectIsLoggedIn)
    const status = useAppSelector(selectStatus)
 
@@ -14,6 +17,11 @@ export const Header = () => {
    const handleSignOut = () => {
       dispatch(logoutTC())
    }
+
+   useEffect(() => {
+      const timer = setTimeout(() => setProgress(66), 500)
+      return () => clearTimeout(timer)
+   }, [])
 
    return (
       <header className={'sticky top-0 z-10 w-full border-b mb-5 bg-transparent backdrop-blur-sm'}>
@@ -26,7 +34,7 @@ export const Header = () => {
                </div>
             </div>
          </div>
-         {status === 'pending' && <Progress />}
+         {status === 'pending' && <Progress value={progress} />}
       </header>
    )
 }
