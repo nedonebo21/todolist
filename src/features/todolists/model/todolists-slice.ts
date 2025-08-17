@@ -1,6 +1,5 @@
 import { FilterValues } from '@/app/App.tsx'
-import { todolistsApi } from '@/features/todolists/api'
-import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
+import { DomainTodolist, todolistsApi } from '@/features/todolists/api'
 import { createAppSlice, handleServerAppError } from '@/shared/utils'
 import { setAppStatusAC } from '@/app/app-slice.ts'
 import { RequestStatus } from '@/shared/types/types.ts'

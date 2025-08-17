@@ -1,12 +1,11 @@
 import { TasksState } from '@/app/App.tsx'
 import { createTodolistTC, deleteTodolistTC } from '@/features/todolists/model/todolists-slice.ts'
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from '@/shared/utils'
-import { tasksApi, UpdateTaskModel } from '@/features/todolists/api'
+import { domainTaskSchema, tasksApi, UpdateTaskModel } from '@/features/todolists/api'
 import { RootState } from '@/app/store.ts'
 import { setAppStatusAC } from '@/app/app-slice.ts'
-import { ResultCode } from '@/shared/enums/enums.ts'
-import { domainTaskSchema } from '@/features/todolists/api/tasks-api.types.ts'
 import { clearDataAC } from '@/shared/actions'
+import { ResultCode } from '@/shared/enums'
 
 export const tasksSlice = createAppSlice({
    name: 'tasks',
