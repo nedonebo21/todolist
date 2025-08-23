@@ -3,8 +3,8 @@ import { Main } from '@/app/main.tsx'
 import { PageNotFound } from '@/shared/ui/page-not-found/page-not-found.tsx'
 import { Login } from '@/features/auth'
 import { useAppSelector } from '@/shared/lib/hooks'
-import { selectIsLoggedIn } from '@/features/auth/model/auth-slice.ts'
 import { ProtectedRoute } from './protected-route'
+import { selectIsLoggedIn } from '@/app/app-slice.ts'
 
 export const Path = {
    Main: '/',

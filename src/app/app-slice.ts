@@ -6,10 +6,12 @@ export const appSlice = createSlice({
    initialState: {
       status: 'idle' as RequestStatus,
       error: null as null | string,
+      isLoggedIn: false,
    },
    selectors: {
       selectStatus: state => state.status,
       selectAppError: state => state.error,
+      selectIsLoggedIn: state => state.isLoggedIn,
    },
    reducers: create => ({
       setAppStatusAC: create.reducer<{ status: RequestStatus }>((state, action) => {
@@ -18,9 +20,12 @@ export const appSlice = createSlice({
       setAppErrorAC: create.reducer<{ error: string | null }>((state, action) => {
          state.error = action.payload.error
       }),
+      setIsLoggedInAC: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
+         state.isLoggedIn = action.payload.isLoggedIn
+      }),
    }),
 })
 
-export const { selectStatus, selectAppError } = appSlice.selectors
-export const { setAppStatusAC, setAppErrorAC } = appSlice.actions
+export const { selectStatus, selectAppError, selectIsLoggedIn } = appSlice.selectors
+export const { setAppStatusAC, setAppErrorAC, setIsLoggedInAC } = appSlice.actions
 export const appReducer = appSlice.reducer
