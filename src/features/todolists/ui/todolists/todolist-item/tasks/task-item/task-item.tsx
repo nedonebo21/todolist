@@ -3,12 +3,13 @@ import { EditableSpan } from '@/shared/ui/editable-span/editable-span.tsx'
 import { cn } from '@/shared/lib/utils.ts'
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { TrashIcon } from 'lucide-react'
-import { deleteTaskTC, updateTaskTC } from '@/features/todolists/model/tasks-slice.ts'
+import { updateTaskTC } from '@/features/todolists/model/tasks-slice.ts'
 import { toast } from 'sonner'
 import { useAppDispatch } from '@/shared/lib/hooks/use-app-dispatch.ts'
 import { TaskStatus } from '@/shared/enums'
 import { DomainTask } from '@/features/todolists/api'
 import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
+import { useDeleteTaskMutation } from '@/features/todolists/api/tasks-api.ts'
 
 type Props = {
    todolist: DomainTodolist
@@ -16,9 +17,12 @@ type Props = {
 }
 export const TaskItem = ({ task, todolist }: Props) => {
    const { id: todolistId, entityStatus } = todolist
+   const [deleteTask] = useDeleteTaskMutation()
+
    const dispatch = useAppDispatch()
-   const deleteTask = () => {
-      dispatch(deleteTaskTC({ todolistId, taskId: task.id }))
+
+   const handleDeleteTask = () => {
+      deleteTask({ todolistId, taskId: task.id })
       toast.success(`Task ${task.title} deleted`)
    }
    const changeTaskStatus = (checked: boolean) => {
@@ -61,7 +65,7 @@ export const TaskItem = ({ task, todolist }: Props) => {
             disabled={entityStatus === 'pending'}
             variant={'ghost'}
             size={'icon'}
-            onClick={deleteTask}
+            onClick={handleDeleteTask}
          >
             <TrashIcon className={'text-destructive'} />
          </Button>
