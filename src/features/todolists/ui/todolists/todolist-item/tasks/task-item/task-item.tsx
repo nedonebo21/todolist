@@ -3,13 +3,12 @@ import { EditableSpan } from '@/shared/ui/editable-span/editable-span.tsx'
 import { cn } from '@/shared/lib/utils.ts'
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { TrashIcon } from 'lucide-react'
-import { updateTaskTC } from '@/features/todolists/model/tasks-slice.ts'
 import { toast } from 'sonner'
-import { useAppDispatch } from '@/shared/lib/hooks/use-app-dispatch.ts'
 import { TaskStatus } from '@/shared/enums'
-import { DomainTask } from '@/features/todolists/api'
+import { DomainTask, UpdateTaskModel } from '@/features/todolists/api'
 import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
-import { useDeleteTaskMutation } from '@/features/todolists/api/tasks-api.ts'
+import { useDeleteTaskMutation, useUpdateTaskMutation } from '@/features/todolists/api/tasks-api.ts'
+import { CreateUpdateTaskModel } from '@/shared/utils/create-update-task-model.ts'
 
 type Props = {
    todolist: DomainTodolist
@@ -18,30 +17,24 @@ type Props = {
 export const TaskItem = ({ task, todolist }: Props) => {
    const { id: todolistId, entityStatus } = todolist
    const [deleteTask] = useDeleteTaskMutation()
-
-   const dispatch = useAppDispatch()
+   const [updateTask] = useUpdateTaskMutation()
 
    const handleDeleteTask = () => {
       deleteTask({ todolistId, taskId: task.id })
       toast.success(`Task ${task.title} deleted`)
    }
+
+   const updateTaskFields = (changes: Partial<UpdateTaskModel>) => {
+      const model = CreateUpdateTaskModel(task, changes)
+      updateTask({ todolistId, taskId: task.id, model })
+   }
+
    const changeTaskStatus = (checked: boolean) => {
-      dispatch(
-         updateTaskTC({
-            todolistId,
-            taskId: task.id,
-            domainModel: { status: checked ? TaskStatus.Completed : TaskStatus.New },
-         })
-      )
+      let status = checked ? TaskStatus.Completed : TaskStatus.New
+      updateTaskFields({ status })
    }
    const changeTaskTitle = (title: string) => {
-      dispatch(
-         updateTaskTC({
-            todolistId,
-            taskId: task.id,
-            domainModel: { title },
-         })
-      )
+      updateTaskFields({ title })
    }
 
    const isTaskCompleted = task.status === TaskStatus.Completed
