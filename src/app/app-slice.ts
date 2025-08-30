@@ -1,5 +1,6 @@
 import { RequestStatus } from '@/shared/types/types.ts'
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
+import { tasksApi, todolistsApi } from '@/features/todolists/api'
 
 export const appSlice = createSlice({
    name: 'app',
@@ -10,7 +11,13 @@ export const appSlice = createSlice({
    },
    extraReducers: builder => {
       builder
-         .addMatcher(isPending, state => {
+         .addMatcher(isPending, (state, action) => {
+            if (
+               todolistsApi.endpoints.getTodolists.matchPending(action) ||
+               tasksApi.endpoints.getTasks.matchPending(action)
+            ) {
+               return
+            }
             state.status = 'pending'
          })
          .addMatcher(isFulfilled, state => {
