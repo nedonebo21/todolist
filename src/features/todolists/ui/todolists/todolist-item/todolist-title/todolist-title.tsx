@@ -2,7 +2,6 @@ import { EditableSpan } from '@/shared/ui/editable-span/editable-span.tsx'
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { TrashIcon } from 'lucide-react'
 import { toast } from 'sonner'
-import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import {
    todolistsApi,
    useRemoveTodolistMutation,
@@ -10,6 +9,7 @@ import {
 } from '@/features/todolists/api/todolists-api.ts'
 import { RequestStatus } from '@/shared/types/types.ts'
 import { useAppDispatch } from '@/shared/lib/hooks'
+import { DomainTodolist } from '@/features/todolists/lib/types'
 
 type Props = {
    todolist: DomainTodolist

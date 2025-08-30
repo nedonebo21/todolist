@@ -1,14 +1,14 @@
 import { ScrollArea } from '@/shared/ui/shadcn/scroll-area.tsx'
 import { TaskItem } from '@/features/todolists/ui/todolists/todolist-item/tasks/task-item/task-item.tsx'
 import { TaskStatus } from '@/shared/enums'
-import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import { useGetTasksQuery } from '@/features/todolists/api/tasks-api.ts'
 import { TaskItemSkeleton } from '@/shared/ui/skeletons/task-item-skeleton'
+import { DomainTodolist } from '@/features/todolists/lib/types'
 
-type Props = {
+type TasksPropsType = {
    todolist: DomainTodolist
 }
-export const Tasks = ({ todolist }: Props) => {
+export const Tasks = ({ todolist }: TasksPropsType) => {
    const { id, filter } = todolist
 
    const { data, isLoading } = useGetTasksQuery(id)

@@ -1,14 +1,11 @@
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { AddItemForm } from '@/shared/ui/add-item-form/add-item-form.tsx'
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/shadcn/card.tsx'
-import { toast } from 'sonner'
-import { deleteAllTasksAC } from '@/features/todolists/model/tasks-slice.ts'
 import { TodolistTitle } from '@/features/todolists/ui/todolists/todolist-item/todolist-title/todolist-title.tsx'
 import { Tasks } from '@/features/todolists/ui/todolists/todolist-item/tasks/tasks.tsx'
 import { FilterButtons } from '@/features/todolists/ui/todolists/todolist-item/filter-buttons/filter-buttons.tsx'
-import { useAppDispatch } from '@/shared/lib/hooks'
-import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import { useAddTaskMutation } from '@/features/todolists/api/tasks-api.ts'
+import { DomainTodolist } from '@/features/todolists/lib/types'
 
 type Props = {
    todolist: DomainTodolist
@@ -17,11 +14,6 @@ type Props = {
 export const TodolistItem = ({ todolist }: Props) => {
    const { id, entityStatus } = todolist
    const [addTask] = useAddTaskMutation()
-   const dispatch = useAppDispatch()
-   const deleteAllTasks = () => {
-      dispatch(deleteAllTasksAC({ todolistId: id }))
-      toast.success(`All tasks has been deleted`)
-   }
    const handleAddTask = (title: string) => {
       addTask({ todolistId: id, title })
    }
@@ -47,7 +39,7 @@ export const TodolistItem = ({ todolist }: Props) => {
                   size={'sm'}
                   className={'border-1 border-solid border-transparent w-full'}
                   variant={'destructive'}
-                  onClick={deleteAllTasks}
+                  onClick={() => {}}
                >
                   Delete All
                </Button>

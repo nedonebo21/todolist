@@ -6,9 +6,9 @@ import { TrashIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { TaskStatus } from '@/shared/enums'
 import { DomainTask, UpdateTaskModel } from '@/features/todolists/api'
-import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import { useDeleteTaskMutation, useUpdateTaskMutation } from '@/features/todolists/api/tasks-api.ts'
 import { CreateUpdateTaskModel } from '@/shared/utils/create-update-task-model.ts'
+import { DomainTodolist } from '@/features/todolists/lib/types'
 
 type Props = {
    todolist: DomainTodolist

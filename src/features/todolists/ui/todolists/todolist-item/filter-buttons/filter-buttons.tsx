@@ -1,8 +1,8 @@
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { FilterValues } from '@/app/App.tsx'
 import { useAppDispatch } from '@/shared/lib/hooks'
-import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import { todolistsApi } from '@/features/todolists/api'
+import { DomainTodolist } from '@/features/todolists/lib/types'
 
 type Props = {
    todolist: DomainTodolist
