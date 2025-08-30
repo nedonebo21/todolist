@@ -1,8 +1,8 @@
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { FilterValues } from '@/app/App.tsx'
-import { changeTodolistFilterAC } from '@/features/todolists/model/todolists-slice.ts'
 import { useAppDispatch } from '@/shared/lib/hooks'
 import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
+import { todolistsApi } from '@/features/todolists/api'
 
 type Props = {
    todolist: DomainTodolist
@@ -11,7 +11,14 @@ export const FilterButtons = ({ todolist }: Props) => {
    const { id, filter } = todolist
    const dispatch = useAppDispatch()
    const changeFilter = (filter: FilterValues) => {
-      dispatch(changeTodolistFilterAC({ id, filter }))
+      dispatch(
+         todolistsApi.util.updateQueryData('getTodolists', undefined, state => {
+            const todolist = state.find(tl => tl.id === id)
+            if (todolist) {
+               todolist.filter = filter
+            }
+         })
+      )
    }
    return (
       <div className={'flex gap-2'}>
