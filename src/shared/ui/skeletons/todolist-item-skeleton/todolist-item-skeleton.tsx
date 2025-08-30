@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/shadcn/card.tsx'
 import { Skeleton } from '@/shared/ui/shadcn/skeleton.tsx'
 import { ScrollArea } from '@/shared/ui/shadcn/scroll-area.tsx'
-import { TaskItemSkeleton } from '@/features/todolists/ui/todolists/todolist-item/tasks/task-item/task-item-skeleton.tsx'
+import { TaskItemSkeleton } from '@/shared/ui/skeletons/task-item-skeleton/task-item-skeleton.tsx'
 
 export const TodolistItemSkeleton = () => (
    <Card className="min-w-xs h-[560px]">
