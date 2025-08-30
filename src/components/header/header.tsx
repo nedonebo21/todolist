@@ -1,19 +1,14 @@
 import { Button } from '@/shared/ui/shadcn/button.tsx'
 import { ThemeToggle } from '@/features/theme-toggle'
-import { Progress } from '@/shared/ui/shadcn/progress.tsx'
 import { useAppDispatch, useAppSelector } from '@/shared/lib/hooks'
-import { selectIsLoggedIn, selectStatus, setIsLoggedInAC } from '@/app/app-slice.ts'
-import { useEffect, useState } from 'react'
+import { selectIsLoggedIn, setIsLoggedInAC } from '@/app/app-slice.ts'
 import { useLogoutMutation } from '@/features/auth/api/auth-api.ts'
 import { AUTH_TOKEN } from '@/shared/constants'
 import { ResultCode } from '@/shared/enums'
 import { baseApi } from '@/app/base-api.ts'
 
 export const Header = () => {
-   const [progress, setProgress] = useState(13)
-
    const isLoggedIn = useAppSelector(selectIsLoggedIn)
-   const status = useAppSelector(selectStatus)
 
    const [logout] = useLogoutMutation()
 
@@ -32,11 +27,6 @@ export const Header = () => {
          })
    }
 
-   useEffect(() => {
-      const timer = setTimeout(() => setProgress(66), 300)
-      return () => clearTimeout(timer)
-   }, [])
-
    return (
       <header className={'sticky top-0 z-10 w-full border-b mb-5 bg-transparent backdrop-blur-sm'}>
          <div className={'container flex gap-6 h-16 items-center justify-between mx-auto px-4'}>
@@ -48,7 +38,6 @@ export const Header = () => {
                </div>
             </div>
          </div>
-         {status === 'pending' && <Progress className={'absolute'} value={progress} />}
       </header>
    )
 }
