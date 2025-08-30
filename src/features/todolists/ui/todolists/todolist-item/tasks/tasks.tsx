@@ -3,6 +3,7 @@ import { TaskItem } from '@/features/todolists/ui/todolists/todolist-item/tasks/
 import { TaskStatus } from '@/shared/enums'
 import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import { useGetTasksQuery } from '@/features/todolists/api/tasks-api.ts'
+import { TaskItemSkeleton } from '@/features/todolists/ui/todolists/todolist-item/tasks/task-item/task-item-skeleton.tsx'
 
 type Props = {
    todolist: DomainTodolist
@@ -10,7 +11,7 @@ type Props = {
 export const Tasks = ({ todolist }: Props) => {
    const { id, filter } = todolist
 
-   const { data } = useGetTasksQuery(id)
+   const { data, isLoading } = useGetTasksQuery(id)
 
    let filteredTasks = data?.items
    if (filter === 'active')
@@ -18,6 +19,9 @@ export const Tasks = ({ todolist }: Props) => {
    if (filter === 'completed')
       filteredTasks = filteredTasks?.filter(task => task.status === TaskStatus.Completed)
 
+   if (isLoading) {
+      return <TaskItemSkeleton />
+   }
    return (
       <ScrollArea>
          {filteredTasks?.length === 0 ? (
