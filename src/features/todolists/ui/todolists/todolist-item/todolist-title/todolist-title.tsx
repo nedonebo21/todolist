@@ -4,9 +4,12 @@ import { TrashIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import {
+   todolistsApi,
    useRemoveTodolistMutation,
    useUpdateTodolistTitleMutation,
 } from '@/features/todolists/api/todolists-api.ts'
+import { RequestStatus } from '@/shared/types/types.ts'
+import { useAppDispatch } from '@/shared/lib/hooks'
 
 type Props = {
    todolist: DomainTodolist
@@ -15,12 +18,30 @@ type Props = {
 export const TodolistTitle = ({ todolist }: Props) => {
    const { id, title, entityStatus } = todolist
 
+   const dispatch = useAppDispatch()
+
    const [removeTodolist] = useRemoveTodolistMutation()
    const [updateTodolistTitle] = useUpdateTodolistTitleMutation()
 
+   const changeTodolistStatus = (entityStatus: RequestStatus) => {
+      dispatch(
+         todolistsApi.util.updateQueryData('getTodolists', undefined, state => {
+            const todolist = state.find(tl => tl.id === id)
+            if (todolist) {
+               todolist.entityStatus = entityStatus
+            }
+         })
+      )
+   }
+
    const deleteTodolist = () => {
       toast.success(`Todolist ${title} deleted`)
+      changeTodolistStatus('pending')
       removeTodolist(id)
+         .unwrap()
+         .catch(() => {
+            changeTodolistStatus('idle')
+         })
    }
 
    const handleTodolistUpdate = (title: string) => {
