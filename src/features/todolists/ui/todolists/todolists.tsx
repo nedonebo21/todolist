@@ -1,6 +1,6 @@
 import { TodolistItem } from '@/features/todolists/ui/todolists/todolist-item/todolist-item.tsx'
 import { useGetTodolistsQuery } from '@/features/todolists/api/todolists-api.ts'
-import { TodolistItemSkeleton } from '@/features/todolists/ui/todolists/todolist-item/todolist-item-skeleton.tsx'
+import { TodolistItemSkeleton } from '@/shared/ui/skeletons/todolist-item-skeleton'
 
 export const Todolists = () => {
    const { data: todoLists, isLoading } = useGetTodolistsQuery()

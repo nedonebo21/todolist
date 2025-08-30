@@ -3,7 +3,7 @@ import { TaskItem } from '@/features/todolists/ui/todolists/todolist-item/tasks/
 import { TaskStatus } from '@/shared/enums'
 import { DomainTodolist } from '@/features/todolists/api/todolists-api.types.ts'
 import { useGetTasksQuery } from '@/features/todolists/api/tasks-api.ts'
-import { TaskItemSkeleton } from '@/features/todolists/ui/todolists/todolist-item/tasks/task-item/task-item-skeleton.tsx'
+import { TaskItemSkeleton } from '@/shared/ui/skeletons/task-item-skeleton'
 
 type Props = {
    todolist: DomainTodolist
