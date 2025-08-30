@@ -6,8 +6,8 @@ import { selectIsLoggedIn, selectStatus, setIsLoggedInAC } from '@/app/app-slice
 import { useEffect, useState } from 'react'
 import { useLogoutMutation } from '@/features/auth/api/auth-api.ts'
 import { AUTH_TOKEN } from '@/shared/constants'
-import { clearDataAC } from '@/shared/actions'
 import { ResultCode } from '@/shared/enums'
+import { baseApi } from '@/app/base-api.ts'
 
 export const Header = () => {
    const [progress, setProgress] = useState(13)
@@ -20,13 +20,16 @@ export const Header = () => {
    const dispatch = useAppDispatch()
 
    const handleSignOut = () => {
-      logout().then(res => {
-         if (res.data?.resultCode === ResultCode.Success) {
-            dispatch(setIsLoggedInAC({ isLoggedIn: false }))
-            localStorage.removeItem(AUTH_TOKEN)
-            dispatch(clearDataAC())
-         }
-      })
+      logout()
+         .then(res => {
+            if (res.data?.resultCode === ResultCode.Success) {
+               dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+               localStorage.removeItem(AUTH_TOKEN)
+            }
+         })
+         .then(() => {
+            dispatch(baseApi.util.invalidateTags(['Todolist', 'Task']))
+         })
    }
 
    useEffect(() => {
