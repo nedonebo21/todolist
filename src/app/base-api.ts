@@ -5,8 +5,8 @@ import { handleError } from '@/shared/utils'
 export const baseApi = createApi({
    reducerPath: 'todolistsApi',
    tagTypes: ['Todolist', 'Task'],
-   keepUnusedDataFor: 5,
-   refetchOnFocus: true,
+   // keepUnusedDataFor: 5,
+   // refetchOnFocus: true,
    refetchOnReconnect: true,
    baseQuery: async (args, api, extraOptions) => {
       const result = await fetchBaseQuery({

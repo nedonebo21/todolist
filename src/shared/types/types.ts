@@ -3,6 +3,7 @@ export type FieldError = {
    field: string
 }
 export type BaseResponse<T = {}> = {
+   url: string | undefined
    data: T
    resultCode: number
    messages: string[]

@@ -15,12 +15,14 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginInputs, loginSchema } from '@/features/auth/lib/schemas/login-schema.ts'
 import { useAppDispatch } from '@/shared/lib/hooks'
-import { useLoginMutation } from '@/features/auth/api/auth-api.ts'
+import { useGetCaptchaQuery, useLoginMutation } from '@/features/auth/api/auth-api.ts'
 import { ResultCode } from '@/shared/enums'
 import { setIsLoggedInAC } from '@/app/app-slice.ts'
 import { AUTH_TOKEN } from '@/shared/constants'
+import { useState } from 'react'
 
 export function Login() {
+   const [showCaptcha, setShowCaptcha] = useState(false)
    const {
       register,
       handleSubmit,
@@ -33,21 +35,34 @@ export function Login() {
          email: '',
          password: '',
          rememberMe: false,
+         captcha: '',
       },
    })
    const [login] = useLoginMutation()
+   const { data: captchaResponse, refetch: refetchCaptcha } = useGetCaptchaQuery(undefined, {
+      skip: !showCaptcha,
+   })
+   const captchaUrl = captchaResponse
+
    const dispatch = useAppDispatch()
 
-   const onSubmit: SubmitHandler<LoginInputs> = data => {
-      login(data).then(res => {
-         if (res.data?.resultCode === ResultCode.Success) {
+   const onSubmit: SubmitHandler<LoginInputs> = async data => {
+      try {
+         const res = await login(data).unwrap()
+         if (res.resultCode === ResultCode.Success) {
             dispatch(setIsLoggedInAC({ isLoggedIn: true }))
-            localStorage.setItem(AUTH_TOKEN, res.data.data.token)
+            localStorage.setItem(AUTH_TOKEN, res.data.token)
             reset()
+            setShowCaptcha(false)
+         } else if (res.resultCode === ResultCode.CaptchaError) {
+            setShowCaptcha(true)
+            await refetchCaptcha()
          }
-      })
+      } catch {
+         console.log('err')
+      }
    }
-
+   console.log(captchaResponse)
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <div className={'container mx-auto w-4xl flex justify-center'}>
@@ -114,6 +129,21 @@ export function Login() {
                         />
                         <Label>Remember Me</Label>
                      </div>
+                     {showCaptcha && captchaUrl && (
+                        <div className={'grid gap-2'}>
+                           <div className={'flex justify-center mb-2'}>
+                              <img src={captchaUrl?.url} alt="captcha" />
+                           </div>
+                           <Input
+                              {...register('captcha')}
+                              aria-invalid={!!errors.captcha}
+                              id={'captcha'}
+                              type={'text'}
+                              placeholder={'enter captcha text'}
+                              required
+                           />
+                        </div>
+                     )}
                   </div>
                </CardContent>
                <CardFooter className="flex-col gap-2">
