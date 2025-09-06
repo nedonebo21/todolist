@@ -19,11 +19,11 @@ export const TodolistItem = ({ todolist }: Props) => {
    }
 
    return (
-      <Card className="min-w-xs h-[560px]">
+      <Card className="min-w-lg h-[560px] flex flex-col relative">
          <CardHeader className={'container'}>
             <TodolistTitle todolist={todolist} />
          </CardHeader>
-         <CardContent className={'flex-1'}>
+         <CardContent className={'flex-1 flex flex-col pb-20'}>
             <AddItemForm
                disabled={entityStatus === 'pending'}
                className={'mb-3'}
@@ -32,7 +32,7 @@ export const TodolistItem = ({ todolist }: Props) => {
             />
             <Tasks todolist={todolist} />
          </CardContent>
-         <CardFooter className={'w-full'}>
+         <CardFooter className={'w-full absolute bottom-[14px] left-0'}>
             <div className={'flex flex-col gap-2 w-full'}>
                <FilterButtons todolist={todolist} />
                <Button

@@ -6,7 +6,7 @@ export const Main = () => {
    const [addTodoList] = useAddTodolistMutation()
 
    return (
-      <div className={'container mx-auto max-w-2xl grid gap-y-2.5'}>
+      <div className={'container mx-auto max-w-[1200px] grid gap-y-2.5'}>
          <AddItemForm placeholderValue={'Type your Todolist title'} onCreateItem={addTodoList} />
          <div className={'flex justify-center gap-3 flex-wrap'}>
             <Todolists />
