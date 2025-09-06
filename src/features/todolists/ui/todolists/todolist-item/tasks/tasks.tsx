@@ -6,6 +6,7 @@ import { TaskItemSkeleton } from '@/shared/ui/skeletons/task-item-skeleton'
 import { DomainTodolist } from '@/features/todolists/lib/types'
 import { TasksPagination } from '@/features/todolists/ui/todolists/todolist-item/tasks/tasks-pagination/tasks-pagination.tsx'
 import { useState } from 'react'
+import { PAGE_SIZE } from '@/shared/constants'
 
 type TasksPropsType = {
    todolist: DomainTodolist
@@ -40,7 +41,9 @@ export const Tasks = ({ todolist }: TasksPropsType) => {
                ))
             )}
          </ScrollArea>
-         <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+         {(data?.totalCount || 0) > PAGE_SIZE && (
+            <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+         )}
       </div>
    )
 }

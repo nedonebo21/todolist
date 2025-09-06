@@ -15,7 +15,7 @@ type Props = {
    task: DomainTask
 }
 export const TaskItem = ({ task, todolist }: Props) => {
-   const { id: todolistId, entityStatus } = todolist
+   const { id: todolistId } = todolist
    const [deleteTask] = useDeleteTaskMutation()
    const [updateTask] = useUpdateTaskMutation()
 
@@ -42,24 +42,14 @@ export const TaskItem = ({ task, todolist }: Props) => {
    return (
       <li className={'flex justify-between gap-1.5 items-center'} key={task.id}>
          <label className={'flex gap-3 flex-1 items-center'}>
-            <Checkbox
-               disabled={entityStatus === 'pending'}
-               checked={isTaskCompleted}
-               onCheckedChange={changeTaskStatus}
-            ></Checkbox>
+            <Checkbox checked={isTaskCompleted} onCheckedChange={changeTaskStatus}></Checkbox>
             <EditableSpan
-               disabled={entityStatus === 'pending'}
                className={cn(isTaskCompleted && 'line-through opacity-50')}
                value={task.title}
                onChange={changeTaskTitle}
             />
          </label>
-         <Button
-            disabled={entityStatus === 'pending'}
-            variant={'ghost'}
-            size={'icon'}
-            onClick={handleDeleteTask}
-         >
+         <Button variant={'ghost'} size={'icon'} onClick={handleDeleteTask}>
             <TrashIcon className={'text-destructive'} />
          </Button>
       </li>

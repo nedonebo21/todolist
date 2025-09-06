@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const TodolistItem = ({ todolist }: Props) => {
-   const { id, entityStatus } = todolist
+   const { id } = todolist
    const [addTask] = useAddTaskMutation()
    const handleAddTask = (title: string) => {
       addTask({ todolistId: id, title })
@@ -25,7 +25,6 @@ export const TodolistItem = ({ todolist }: Props) => {
          </CardHeader>
          <CardContent className={'flex-1 flex flex-col pb-20'}>
             <AddItemForm
-               disabled={entityStatus === 'pending'}
                className={'mb-3'}
                placeholderValue={'Type your Task title'}
                onCreateItem={handleAddTask}

@@ -1,5 +1,4 @@
 import { FilterValues } from '@/app/App.tsx'
-import { RequestStatus } from '@/shared/types/types.ts'
 import { z } from 'zod/v4'
 
 const domainTodolistSchema = z.object({
@@ -13,5 +12,4 @@ export type Todolist = z.infer<typeof domainTodolistSchema>
 
 export type DomainTodolist = Todolist & {
    filter: FilterValues
-   entityStatus: RequestStatus
 }
